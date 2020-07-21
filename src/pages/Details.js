@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { View, Button, Text } from 'react-native'
-import {Context} from '../../App'
+import { Context } from '../../App'
 export default Details = ({ navigation }) => {
     const context = useContext(Context)
     return (

@@ -13,10 +13,10 @@ import {
 
 import fetchRequest from '../commom/fetchRequest'
 import { interfaces } from '../config/config'
-import {Context} from '../../App'
-import {changeLoginStateAction,changeCount} from '../store/action/action'
+import { Context } from '../../App'
+import { changeLoginStateAction, changeCount } from '../store/action/action'
 
-const Home = ({ navigation }) => {
+export default Home = ({ navigation }) => {
     const windowWidth = useWindowDimensions().width
     const windowHeight = useWindowDimensions().height;
     const [dataList, setDataList] = useState([])
@@ -39,34 +39,16 @@ const Home = ({ navigation }) => {
             </Text>
             <Button title='点击' onPress={() => context.dispatch(changeCount(2))} />
             <Button title='退出登录' onPress={() => context.dispatch(changeLoginStateAction(false))} />
-            <Button title="跳转" onPress={() => navigation.navigate('Details')} />
+            <Button title="跳转Details" onPress={() => navigation.navigate('Details')} />
             <FlatList
                 data={dataList}
                 renderItem={MoveList}
                 keyExtractor={(item) => item.openid}
+                // extraData={}
             />
         </View>
     )
 }
-export default Home
-// const stateToProps = (state) => {
-//     return {
-//         loginState: state.loginState
-//     }
-// }
-// const dispatchToProps = (dispatch) => {
-//     return {
-//         newState() {
-//             let action = {
-//                 type: 'change_loginState',
-//                 value: false
-//             }
-//             dispatch(action)
-//         }
-//     }
-// }
-
-// export default connect(stateToProps, dispatchToProps)(Home);
 
 
 //列表
@@ -87,7 +69,7 @@ const MoveList = ({ item }) => {
 const styles = StyleSheet.create({
     text: {
         fontSize: 20,
-        textAlign:'center'
+        textAlign: 'center'
     },
     img: {
         width: 50,

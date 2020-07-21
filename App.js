@@ -38,8 +38,8 @@ export const Context = createContext(null)
 const TabPage = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Me" component={Me} />
+      <Tab.Screen name="Home" component={Home} options={{ title: '首页' }} />
+      <Tab.Screen name="Me" component={Me} options={{ title: '我的' }} />
     </Tab.Navigator>
   )
 }
@@ -71,12 +71,12 @@ function CustomDrawerContent(props) {
 
 //已登录
 const authScreens = [
-  { name: 'Home', component: DrawerPage },
-  { name: 'Details', component: Details },
+  { name: 'Home', component: DrawerPage, header: null, headerShown: false, title: '首页' },
+  { name: 'Details', component: Details, header: null, headerShown: true, title: '详情' },
 ]
 //未登录
 const userScreens = [
-  { name: 'Login', component: Login }
+  { name: 'Login', component: Login, headerShown: true, title: '登录' }
 ]
 
 
@@ -87,14 +87,13 @@ const App = () => {
       <Context.Provider value={{ state, dispatch }}>
         <NavigationContainer>
 
-          <Stack.Navigator
-            tabBarOptions={{
-              labelStyle: { fontSize: 12 },
-              tabStyle: { width: 100 },
-              style: { backgroundColor: 'powderblue' },
-            }}>
+          <Stack.Navigator gesturesEnabled={true}>
             {[...(state.loginState ? authScreens : userScreens)].map((item, index) => (
-              <Stack.Screen name={item.name} component={item.component} key={index} />
+              <Stack.Screen
+                options={{ headerShown: item.headerShown, title: item.title }}
+                name={item.name}
+                component={item.component}
+                key={index} />
             ))}
           </Stack.Navigator>
 
