@@ -1,11 +1,4 @@
-/**
- * Sample React Native App
- *
- * @format
- * @flow strict-local
- */
-
-import React from 'react';
+import React, { createContext, useReducer } from 'react';
 import {
   Alert,
 } from 'react-native';
@@ -17,9 +10,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-//react-redux
-// import { Provider } from 'react-redux'
-// import store from './src/store'
+
 //react-navigation
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -36,11 +27,13 @@ import Me from './src/pages/Me'
 import Details from './src/pages/Details'
 import Login from './src/pages/Login'
 import Info from './src/pages/Info'
+//useReducer
+import reducer, { initState } from './src/store/reducer/index'
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-
+export const Context = createContext(null)
 //底部切换的页面
 const TabPage = () => {
   return (
@@ -86,10 +79,12 @@ const userScreens = [
   { name: 'Login', component: Login }
 ]
 
+
 const App = () => {
+  const [state, dispatch] = useReducer(reducer, initState)
   return (
     <>
-      {/* <Provider store={store}> */}
+      <Context.Provider value={{ state, dispatch }}>
         <NavigationContainer>
 
           <Stack.Navigator
@@ -98,13 +93,13 @@ const App = () => {
               tabStyle: { width: 100 },
               style: { backgroundColor: 'powderblue' },
             }}>
-            {[...(true ? authScreens : userScreens)].map((item, index) => (
+            {[...(state.loginState ? authScreens : userScreens)].map((item, index) => (
               <Stack.Screen name={item.name} component={item.component} key={index} />
             ))}
           </Stack.Navigator>
 
         </NavigationContainer>
-      {/* </Provider> */}
+      </Context.Provider>
     </>
   );
 };

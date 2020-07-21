@@ -1,12 +1,17 @@
+import { CHANGE_LOGINSTATE, CHANGE_COUNT } from '../action/actionType'
 export const initState = {
-    loginState: 0
+    loginState: true,
+    count: 0
 }
 
 export default (state, action) => {
+    let newState = JSON.parse(JSON.stringify(state))
     switch (action.type) {
-        case 'change_loginState':
-            let newState = JSON.parse(JSON.stringify(state))
-            newState.loginState += 1
+        case CHANGE_LOGINSTATE:
+            newState.loginState = !newState.loginState
+            return newState
+        case CHANGE_COUNT:
+            newState.count += action.value
             return newState
         default: return state
     }

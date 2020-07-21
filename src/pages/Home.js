@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import {
     StyleSheet,
     View,
@@ -10,15 +10,17 @@ import {
     Alert,
     TouchableNativeFeedback
 } from 'react-native';
-// import { connect } from 'react-redux'
+
 import fetchRequest from '../commom/fetchRequest'
 import { interfaces } from '../config/config'
-import reducer, { initState } from '../store/reducer/index'
+import {Context} from '../../App'
+import {changeLoginStateAction,changeCount} from '../store/action/action'
+
 const Home = ({ navigation }) => {
     const windowWidth = useWindowDimensions().width
     const windowHeight = useWindowDimensions().height;
     const [dataList, setDataList] = useState([])
-    const [state, dispatch] = useReducer(reducer, initState)
+    const context = useContext(Context)
     useEffect(() => {
         fetchRequest(interfaces.GET_SELECT_FOOD, 'POST')
             .then(res => {
@@ -33,9 +35,10 @@ const Home = ({ navigation }) => {
     return (
         <View>
             <Text style={styles.text}>
-                {state.loginState}
+                {context.state.count}
             </Text>
-            <Button title='提交' onPress={() => dispatch({ type: 'change_loginState' })} />
+            <Button title='点击' onPress={() => context.dispatch(changeCount(2))} />
+            <Button title='退出登录' onPress={() => context.dispatch(changeLoginStateAction(false))} />
             <Button title="跳转" onPress={() => navigation.navigate('Details')} />
             <FlatList
                 data={dataList}
@@ -83,7 +86,8 @@ const MoveList = ({ item }) => {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20
+        fontSize: 20,
+        textAlign:'center'
     },
     img: {
         width: 50,
