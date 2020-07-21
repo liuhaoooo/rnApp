@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import {
     StyleSheet,
     View,
@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 
 export default Me = ()=>{
+    useEffect(()=>{
+        console.log('加载Me页面')
+    },[])
     return(
         <View>
             <Text>
