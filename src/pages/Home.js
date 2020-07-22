@@ -11,16 +11,16 @@ import {
     TouchableNativeFeedback
 } from 'react-native';
 
-import fetchRequest from '../commom/fetchRequest'
+import fetchRequest from '../common/fetchRequest'
 import { interfaces } from '../config/config'
 import { Context } from '../../App'
-import { changeLoginStateAction, changeCount } from '../store/action/action'
+import { changeLoginStateAction, changeCountAction } from '../store/action/action'
 
 export default Home = ({ navigation }) => {
     const windowWidth = useWindowDimensions().width
     const windowHeight = useWindowDimensions().height;
     const [dataList, setDataList] = useState([])
-    const context = useContext(Context)
+    const { state, dispatch } = useContext(Context)
     useEffect(() => {
         fetchRequest(interfaces.GET_SELECT_FOOD, 'POST')
             .then(res => {
@@ -35,16 +35,16 @@ export default Home = ({ navigation }) => {
     return (
         <View>
             <Text style={styles.text}>
-                {context.state.count}
+                {state.count}
             </Text>
-            <Button title='点击' onPress={() => context.dispatch(changeCount(2))} />
-            <Button title='退出登录' onPress={() => context.dispatch(changeLoginStateAction(false))} />
+            <Button title='点击' onPress={() => dispatch(changeCountAction(2))} />
+            <Button title='退出登录' onPress={() => dispatch(changeLoginStateAction(false))} />
             <Button title="跳转Details" onPress={() => navigation.navigate('Details')} />
             <FlatList
                 data={dataList}
                 renderItem={MoveList}
                 keyExtractor={(item) => item.openid}
-                // extraData={}
+            // extraData={}
             />
         </View>
     )

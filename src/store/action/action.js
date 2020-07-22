@@ -5,7 +5,7 @@ export const changeLoginStateAction = (value) => ({
     value
 })
 
-export const changeCount = (value) => ({
+export const changeCountAction = (value) => ({
     type: CHANGE_COUNT,
     value
 })

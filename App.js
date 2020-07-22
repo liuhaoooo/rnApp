@@ -34,6 +34,7 @@ const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 export const Context = createContext(null)
+
 //底部切换的页面
 const TabPage = () => {
   return (
@@ -86,7 +87,7 @@ const App = () => {
     <>
       <Context.Provider value={{ state, dispatch }}>
         <NavigationContainer>
-
+          
           <Stack.Navigator gesturesEnabled={true}>
             {[...(state.loginState ? authScreens : userScreens)].map((item, index) => (
               <Stack.Screen
