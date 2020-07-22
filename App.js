@@ -48,8 +48,8 @@ const TabPage = () => {
 const DrawerPage = () => {
   return (
     <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name="Home" component={TabPage} />
-      <Drawer.Screen name="Info" component={Info} />
+      <Drawer.Screen name="Home" component={TabPage} options={{ title: '首页' }}/>
+      <Drawer.Screen name="Info" component={Info} options={{ title: '信息' }}/>
     </Drawer.Navigator>
   )
 }

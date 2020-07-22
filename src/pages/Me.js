@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useContext } from 'react'
 import {
     StyleSheet,
     View,
@@ -9,16 +9,17 @@ import {
     useWindowDimensions,
     Alert
 } from 'react-native';
+import { Context } from '../../App'
+import { changeLoginStateAction } from '../store/action/action'
 
 export default Me = ()=>{
+    const { state, dispatch } = useContext(Context)
     useEffect(()=>{
-        console.log('加载Me页面')
+        
     },[])
     return(
         <View>
-            <Text>
-                me
-            </Text>
+            <Button title='退出登录' onPress={() => dispatch(changeLoginStateAction(false))} />
         </View>
     )
 }
