@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, TouchableHighlight, Text, TextInput, StyleSheet, Alert } from 'react-native'
+import { View, TouchableHighlight, Text, TextInput, StyleSheet, Alert,ImageBackground } from 'react-native'
 import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'
 import { interfaces } from '../config/config'
@@ -26,25 +26,28 @@ export default Login = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.content}>
-            <TextInput
-                style={styles.input}
-                onChangeText={text => setUserName(text)}
-                value={userName}
-                placeholder='用户名'
-            />
-            <TextInput
-                style={styles.input}
-                onChangeText={text => setPassword(text)}
-                value={password}
-                placeholder='密码'
-            />
-            <TouchableHighlight onPress={() => login()} style={styles.button} >
-                <View>
-                    <Text style={{ textAlign: 'center', lineHeight: 40, color: '#fff' }}>登录</Text>
-                </View>
-            </TouchableHighlight>
-        </View>
+        <ImageBackground source={require('../assets/images/background.jpg')} style={{ width: '100%', height: '100%' }}>
+            <View style={styles.content}>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setUserName(text)}
+                    value={userName}
+                    placeholder='用户名'
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={text => setPassword(text)}
+                    value={password}
+                    secureTextEntry={true}
+                    placeholder='密码'
+                />
+                <TouchableHighlight onPress={() => login()} style={styles.button} >
+                    <View>
+                        <Text style={{ textAlign: 'center', lineHeight: 40, color: '#fff' }}>登录</Text>
+                    </View>
+                </TouchableHighlight>
+            </View>
+        </ImageBackground>
     )
 }
 const styles = StyleSheet.create({
@@ -59,7 +62,8 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        backgroundColor:'#fff'
     },
     button: {
         backgroundColor: '#43D289',
