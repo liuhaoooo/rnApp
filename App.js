@@ -10,7 +10,7 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 //react-navigation
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -34,13 +34,36 @@ const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 export const Context = createContext(null)
-
+console.log(Colors)
 //底部切换的页面
 const TabPage = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} options={{ title: '首页' }} />
-      <Tab.Screen name="Me" component={Me} options={{ title: '我的' }} />
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: Colors.primary,
+        inactiveTintColor: Colors.dark,
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarLabel: '首页',
+          tabBarIcon: ({ color, size }) => {
+            return <Ionicons name='people-sharp' size={size} color={color}/>;
+          }
+        }}
+      />
+      <Tab.Screen
+        name="Me"
+        component={Me}
+        options={{
+          tabBarLabel: '我的',
+          tabBarIcon: ({ color, size }) => {
+            return <Ionicons name='flower-sharp' size={size} color={color}/>;
+          }
+        }}
+      />
     </Tab.Navigator>
   )
 }
@@ -48,8 +71,8 @@ const TabPage = () => {
 const DrawerPage = () => {
   return (
     <Drawer.Navigator drawerContent={props => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name="Home" component={TabPage} options={{ title: '首页' }}/>
-      <Drawer.Screen name="Info" component={Info} options={{ title: '信息' }}/>
+      <Drawer.Screen name="Home" component={TabPage} options={{ title: '首页' }} />
+      <Drawer.Screen name="Info" component={Info} options={{ title: '信息' }} />
     </Drawer.Navigator>
   )
 }
@@ -77,7 +100,7 @@ const authScreens = [
 ]
 //未登录
 const userScreens = [
-  { name: 'Login', component: Login, headerShown: true, title: '登录' }
+  { name: 'Login', component: Login, headerShown: false, title: '登录' }
 ]
 
 
@@ -87,7 +110,7 @@ const App = () => {
     <>
       <Context.Provider value={{ state, dispatch }}>
         <NavigationContainer>
-          
+
           <Stack.Navigator gesturesEnabled={true}>
             {[...(state.loginState ? authScreens : userScreens)].map((item, index) => (
               <Stack.Screen

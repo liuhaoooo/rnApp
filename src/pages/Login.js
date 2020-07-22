@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { View, TouchableHighlight, Text, TextInput, StyleSheet, Alert } from 'react-native'
 import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'
-
+import { interfaces } from '../config/config'
+import fetchRequest from '../common/fetchRequest'
 export default Login = ({ navigation }) => {
     const context = useContext(Context)
     const [userName, setUserName] = useState('')
@@ -14,6 +15,14 @@ export default Login = ({ navigation }) => {
         } else {
             Alert.alert('密码错误')
         }
+        // fetchRequest(interfaces.LOGIN, 'POST', { openid:userName, password })
+        //     .then(res => {
+        //         console.log(res)
+        //         dispatch(changeLoginStateAction(true))
+        //     })
+        //     .catch(err => {
+        //         Alert.alert('请求失败')
+        //     })
     }
 
     return (
@@ -56,6 +65,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#43D289',
         width: 200,
         height: 40,
-        borderRadius:8
+        borderRadius: 8
     }
 })
