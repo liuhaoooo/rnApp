@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { View, TouchableHighlight,TouchableWithoutFeedback, Text, TextInput, StyleSheet, Alert, ImageBackground } from 'react-native'
 import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'
+import Loading from '../components/Loading'
 import { interfaces } from '../config/config'
 import fetchRequest from '../common/fetchRequest'
 export default Login = ({ navigation }) => {
@@ -26,7 +27,8 @@ export default Login = ({ navigation }) => {
         //     })
     }
     function sandCode() {
-        Alert.alert('发送成功')
+        Loading.load(true)
+        setTimeout(()=>Loading.load(false),2000)
     }
     return (
         <ImageBackground source={require('../assets/images/background.jpg')} style={{ width: '100%', height: '100%' }}>
@@ -69,6 +71,7 @@ export default Login = ({ navigation }) => {
                         <Text style={styles.button_text}>{isRegister ? '去登录' : '去注册'}</Text>
                     </View>
                 </TouchableWithoutFeedback>
+                <Loading/>
             </View>
         </ImageBackground>
     )
