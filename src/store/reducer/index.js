@@ -1,6 +1,6 @@
 import { CHANGE_LOGINSTATE, CHANGE_COUNT } from '../action/actionType'
 export const initState = {
-    loginState: true,
+    loginState: false,
     count: 0
 }
 

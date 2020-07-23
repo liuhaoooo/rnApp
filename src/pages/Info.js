@@ -34,21 +34,21 @@ export default Info = () => {
 
 const Page1 = () => {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,backgroundColor:'#f79090'}}>
             <Text>Page1</Text>
         </View>
     )
 }
 const Page2 = () => {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,backgroundColor:'#90e4f7'}}>
             <Text>Page2</Text>
         </View>
     )
 }
 const Page3 = () => {
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' ,backgroundColor:'#e790f7'}}>
             <Text>Page3</Text>
         </View>
     )

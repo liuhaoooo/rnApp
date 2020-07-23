@@ -34,7 +34,7 @@ const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 export const Context = createContext(null)
-console.log(Colors)
+
 //底部切换的页面
 const TabPage = () => {
   return (
@@ -95,8 +95,8 @@ function CustomDrawerContent(props) {
 
 //已登录
 const authScreens = [
-  { name: 'Home', component: DrawerPage, header: null, headerShown: false, title: '首页' },
-  { name: 'Details', component: Details, header: null, headerShown: true, title: '详情' },
+  { name: 'Home', component: DrawerPage, headerShown: false, title: '首页' },
+  { name: 'Details', component: Details, headerShown: true, title: '详情' },
 ]
 //未登录
 const userScreens = [
