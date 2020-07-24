@@ -11,6 +11,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Provider } from '@ant-design/react-native';
 //react-navigation
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -50,7 +51,7 @@ const TabPage = () => {
         options={{
           tabBarLabel: '首页',
           tabBarIcon: ({ color, size }) => {
-            return <Ionicons name='people-sharp' size={size} color={color}/>;
+            return <Ionicons name='people-sharp' size={size} color={color} />;
           }
         }}
       />
@@ -60,7 +61,7 @@ const TabPage = () => {
         options={{
           tabBarLabel: '我的',
           tabBarIcon: ({ color, size }) => {
-            return <Ionicons name='flower-sharp' size={size} color={color}/>;
+            return <Ionicons name='flower-sharp' size={size} color={color} />;
           }
         }}
       />
@@ -108,21 +109,23 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, initState)
   return (
     <>
-      <Context.Provider value={{ state, dispatch }}>
-        <NavigationContainer>
+      <Provider>
+        <Context.Provider value={{ state, dispatch }}>
+          <NavigationContainer>
 
-          <Stack.Navigator gesturesEnabled={true}>
-            {[...(state.loginState ? authScreens : userScreens)].map((item, index) => (
-              <Stack.Screen
-                options={{ headerShown: item.headerShown, title: item.title }}
-                name={item.name}
-                component={item.component}
-                key={index} />
-            ))}
-          </Stack.Navigator>
+            <Stack.Navigator gesturesEnabled={true}>
+              {[...(state.loginState ? authScreens : userScreens)].map((item, index) => (
+                <Stack.Screen
+                  options={{ headerShown: item.headerShown, title: item.title }}
+                  name={item.name}
+                  component={item.component}
+                  key={index} />
+              ))}
+            </Stack.Navigator>
 
-        </NavigationContainer>
-      </Context.Provider>
+          </NavigationContainer>
+        </Context.Provider>
+      </Provider>
     </>
   );
 };

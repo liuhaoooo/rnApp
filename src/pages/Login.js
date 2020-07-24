@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, TouchableHighlight,TouchableWithoutFeedback, Text, TextInput, StyleSheet, Alert, ImageBackground } from 'react-native'
+import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, Alert, ImageBackground } from 'react-native'
+import { Toast } from '@ant-design/react-native';
 import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'
-import Loading from '../components/Loading'
 import { interfaces } from '../config/config'
 import fetchRequest from '../common/fetchRequest'
 export default Login = ({ navigation }) => {
@@ -13,9 +13,12 @@ export default Login = ({ navigation }) => {
     const [isRegister, setRegister] = useState(false)
     function login() {
         if (phone == '18877611836' && password == '321123aaa') {
-            context.dispatch(changeLoginStateAction(true))
+            Toast.loading('登录中...', 1, () => {
+                context.dispatch(changeLoginStateAction(true))
+                Toast.info("登录成功")
+            });
         } else {
-            Alert.alert('密码错误')
+            Toast.info("密码错误")
         }
         // fetchRequest(interfaces.LOGIN, 'POST', { openid:phone, password })
         //     .then(res => {
@@ -27,8 +30,9 @@ export default Login = ({ navigation }) => {
         //     })
     }
     function sandCode() {
-        Loading.load(true)
-        setTimeout(()=>Loading.load(false),2000)
+        Toast.loading('加载中...', 1, () => {
+            Toast.info("发送成功")
+        });
     }
     return (
         <ImageBackground source={require('../assets/images/background.jpg')} style={{ width: '100%', height: '100%' }}>
@@ -71,7 +75,6 @@ export default Login = ({ navigation }) => {
                         <Text style={styles.button_text}>{isRegister ? '去登录' : '去注册'}</Text>
                     </View>
                 </TouchableWithoutFeedback>
-                <Loading/>
             </View>
         </ImageBackground>
     )
