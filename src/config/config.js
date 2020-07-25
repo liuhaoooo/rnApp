@@ -1,4 +1,4 @@
-const common_url = 'http://127.0.0.1:8000/api/';  //服务器地址
+const common_url = 'http://liuhaooo.top:6005/api/';  //服务器地址
 const interfaces = {
 	GET_FOODLIST:'getFoodList',
 	GET_SELECT_FOOD:'getSelectFood',
