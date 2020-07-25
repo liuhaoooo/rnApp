@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, Alert, ImageBackground } from 'react-native'
-import { Toast, ActivityIndicator } from '@ant-design/react-native';
+import { Portal, Toast, ActivityIndicator } from '@ant-design/react-native';
 import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'
 import { interfaces } from '../config/config'
@@ -22,37 +22,38 @@ export default Login = ({ navigation }) => {
         };
     }, [])
 
-
-    //登录
-    function login() {
-        if (phone != '1' && password != 'a') {
-            Toast.loading('登录中...', 1, () => {
-                Toast.info({ content: "登录成功", duration: 1, mask: false })
-                dispatch(changeLoginStateAction(true))
-            });
-        } else {
-            Toast.info({ content: "密码错误", duration: 1, mask: false })
-        }
-        // fetchRequest(interfaces.LOGIN, 'POST', { openid:phone, password })
-        //     .then(res => {
-        //         console.log(res)
-        //         dispatch(changeLoginStateAction(true))
-        //     })
-        //     .catch(err => {
-        //         Alert.alert('请求失败')
-        //     })
-    }
-
     //获取验证码
     function sandCode() {
+        if (!phone) return
         setSendCode(true)
-        setTimeout(() => {
-            setSendCode(false)
-            countDown(60)
-            Toast.info({ content: "发送成功", duration: 1, mask: false })
-        }, 1000);
+        fetchRequest(interfaces.SENDSMS, 'POST', { phone })
+            .then(res => {
+                setSendCode(false)
+                countDown(60)
+                Toast.info({ content: res.msg, duration: 1, mask: false })
+            })
     }
-
+    //注册
+    function zhuce() {
+        if (!phone || !password || !code) return
+        fetchRequest(interfaces.ZHUCE, 'POST', { phone, password, code })
+            .then(res => {
+                res.success && dispatch(changeLoginStateAction(true))
+                Toast.info({ content: res.msg, duration: 1, mask: false })
+            })
+    }
+    //登录
+    function login() {
+        if (!phone || !password) return
+        const key = Toast.loading('登录中...')
+        fetchRequest(interfaces.LOGIN, 'POST', { phone, password })
+            .then(res => {
+                console.log(res.token)
+                Portal.remove(key)
+                res.success && dispatch(changeLoginStateAction(true))
+                Toast.info({ content: res.msg, duration: 1, mask: false })
+            })
+    }
     //倒计时
     function countDown(sec) {
         timer = setInterval(() => {
@@ -106,7 +107,7 @@ export default Login = ({ navigation }) => {
                         </TouchableHighlight>
                     </View>) : null
                 }
-                <TouchableHighlight onPress={() => login()} style={styles.button} >
+                <TouchableHighlight onPress={() => isRegister ? zhuce() : login()} style={styles.button} >
                     <View>
                         <Text style={styles.button_text}>{isRegister ? '注册' : '登录'}</Text>
                     </View>

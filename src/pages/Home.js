@@ -57,7 +57,7 @@ export default Home = ({navigation}) => {
             <FlatList
                 data={dataList}
                 renderItem={MoveList}
-                keyExtractor={(item) => item.openid}
+                keyExtractor={(item) => item.id}
             // extraData={}
             />
         </View>
