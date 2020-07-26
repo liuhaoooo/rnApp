@@ -41,7 +41,7 @@ function timeout_fetch(fetch_promise, timeout = 10000) {
     let timeout_fn = null;
     let timeout_promise = new Promise((resolve, reject) => {
         timeout_fn = () => {
-            Toast.info({ content: '请求超时', duration: 1, mask: false })
+            // Toast.info({ content: '请求超时', duration: 1, mask: false })
             reject('timeout promise');
         };
     });

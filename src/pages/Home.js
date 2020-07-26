@@ -28,9 +28,6 @@ export default Home = ({navigation}) => {
             .then(res => {
                 setDataList(res.data)
             })
-            .catch(err => {
-                Alert.alert('请求失败')
-            })
     }, [])
 
     //列表
