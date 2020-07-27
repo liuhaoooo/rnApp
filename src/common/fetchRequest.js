@@ -31,7 +31,7 @@ function fetchRequest(url, method = 'GET', params = '') {
                 resolve(responseData);
             })
             .catch((err) => {
-                Toast.info({ content: '请求失败', duration: 1, mask: false })
+                // Toast.info({ content: '请求失败', duration: 1, mask: false })
                 reject(err);
             });
     });

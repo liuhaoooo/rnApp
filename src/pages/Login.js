@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, Alert, ImageBackground } from 'react-native'
+import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
 import { Portal, Toast, ActivityIndicator } from '@ant-design/react-native';
 import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'

@@ -1,83 +1,36 @@
-import React, { useState, useEffect, useContext } from 'react'
-import {
-    StyleSheet,
-    View,
-    Text,
-    Button,
-    FlatList,
-    Image,
-    useWindowDimensions,
-    Alert,
-    TouchableNativeFeedback
-} from 'react-native';
+import React, { useReducer } from 'react'
+import { View, Button, Text } from 'react-native'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import HomePage1 from './home/HomePage1'
+import HomePage2 from './home/HomePage2'
+import HomePage3 from './home/HomePage3'
 
-// import { useNavigation } from '@react-navigation/native';
-
-import fetchRequest from '../common/fetchRequest'
-import { interfaces } from '../config/config'
-import { Context } from '../../App'
-import { changeCountAction } from '../store/action/action'
-
-export default Home = ({navigation}) => {
-    const windowWidth = useWindowDimensions().width
-    const windowHeight = useWindowDimensions().height;
-    const [dataList, setDataList] = useState([])
-    const { state, dispatch } = useContext(Context)
-    useEffect(() => {
-        fetchRequest(interfaces.GET_SELECT_FOOD, 'POST')
-            .then(res => {
-                setDataList(res.data)
-            })
-    }, [])
-
-    //列表
-    const MoveList = ({ item }) => {
-        return (
-            <TouchableNativeFeedback onPress={() => navigation.navigate('Details',{userName:item.user_name})}>
-                <View style={styles.list}>
-                    <Image
-                        source={{ uri: item.avatar_url }}
-                        style={styles.img}
-                    />
-                    <Text style={styles.title}>{item.user_name}</Text>
-                </View>
-            </TouchableNativeFeedback>
-        )
-    }
+const Tab = createMaterialTopTabNavigator();
+export default Home = () => {
     return (
-        <View>
-            <Text style={styles.text}>
-                {state.count}
-            </Text>
-            <Button title='点击' onPress={() => dispatch(changeCountAction(2))} />
-
-            <FlatList
-                data={dataList}
-                renderItem={MoveList}
-                keyExtractor={(item) => item.id}
-            // extraData={}
-            />
-        </View>
+            <Tab.Navigator
+                initialRouteName="HomePage1"
+                tabBarOptions={{
+                    activeTintColor: '#333',
+                    labelStyle: { fontSize: 12 },
+                    style: { backgroundColor: 'powderblue' },
+                }}
+            >
+                <Tab.Screen
+                    name="HomePage1"
+                    component={HomePage1}
+                    options={{ tabBarLabel: 'HomePage1' }}
+                />
+                <Tab.Screen
+                    name="HomePage2"
+                    component={HomePage2}
+                    options={{ tabBarLabel: 'HomePage2' }}
+                />
+                <Tab.Screen
+                    name="HomePage3"
+                    component={HomePage3}
+                    options={{ tabBarLabel: 'HomePage3' }}
+                />
+            </Tab.Navigator>
     )
 }
-
-
-
-const styles = StyleSheet.create({
-    text: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
-    img: {
-        width: 50,
-        height: 50
-    },
-    title: {
-        textAlign: 'center'
-    },
-    list: {
-        flex: 1,
-        alignItems: "center",
-        flexDirection: 'row'
-    }
-});

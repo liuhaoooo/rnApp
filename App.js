@@ -3,7 +3,7 @@ import {
   Alert,
 } from 'react-native';
 
-import { Header, Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Provider } from '@ant-design/react-native';
 //react-navigation
