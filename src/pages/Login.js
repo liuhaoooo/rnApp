@@ -3,120 +3,82 @@ import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, St
 import { Portal, Toast, ActivityIndicator } from '@ant-design/react-native';
 import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'
-import { interfaces } from '../config/config'
-import fetchRequest from '../common/fetchRequest'
+import { CMD } from '../config/cmd'
+import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
+import { encode } from 'react-native-base64'
 
-let timer = null
 export default Login = ({ navigation }) => {
     const { state, dispatch } = useContext(Context)//登录状态
-    const [phone, setPhone] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [code, setCode] = useState('')
-    const [isRegister, setRegister] = useState(false)//当前是否为注册页面
-    const [isSendCode, setSendCode] = useState(false)
-    const [codeText, setCodeText] = useState("获取验证码")//验证码按钮文字
+    const [times, setTimes] = useState(0)
+    const [loginTimesIsShow, setLoginTimesIsShow] = useState(false)
 
     useEffect(() => {
         return () => {
-            clearInterval(timer)
+            getNextText()
         };
     }, [])
-
-    //获取验证码
-    function sandCode() {
-        if (!phone) return
-        setSendCode(true)
-        fetchRequest(interfaces.SENDSMS, 'POST', { phone })
-            .then(res => {
-                setSendCode(false)
-                countDown(60)
-                Toast.info({ content: res.msg, duration: 1, mask: false })
-            })
-    }
-    //注册
-    function zhuce() {
-        if (!phone || !password || !code) return
-        fetchRequest(interfaces.ZHUCE, 'POST', { phone, password, code })
-            .then(res => {
-                res.success && dispatch(changeLoginStateAction(true))
-                Toast.info({ content: res.msg, duration: 1, mask: false })
-            })
-    }
     //登录
-    function login() {
-        if (!phone || !password) return
+    async function login() {
+        if (!username || !password) {
+            dispatch(changeLoginStateAction(true))
+            return
+        }
         const key = Toast.loading('登录中...')
-        fetchRequest(interfaces.LOGIN, 'POST', { phone, password })
+        dispatch(changeLoginStateAction(true))
+        let json = {
+            cmd: CMD.LOGIN,
+            username: username,
+            passwd: encode(password),
+            isAutoUpgrade: "0"
+        };
+        fetchRequest_post(json)
             .then(res => {
-                console.log(res.token)
-                Portal.remove(key)
-                res.success && dispatch(changeLoginStateAction(true))
-                Toast.info({ content: res.msg, duration: 1, mask: false })
+                if (res.login_fail == "fail") {
+                    Portal.remove(key)
+                    if (parseInt(res.login_times, 10) < 1) {
+                        getNextText();
+                    }
+                } else {//登录成功
+                    dispatch(changeLoginStateAction(true))
+                }
             })
     }
-    //倒计时
-    function countDown(sec) {
-        timer = setInterval(() => {
-            setCodeText(sec);
-            sec--;
-            if (sec == "00") {
-                setCodeText("获取验证码");
-                clearInterval(timer);
-                return;
-            }
-            if (sec < 10) {
-                sec = "0" + sec;
-            }
-            setCodeText(sec);
-        }, 1000);
+    async function getNextText() {
+        let res = await fetchRequest_get({ cmd: CMD.GET_NEXT_LOGIN_TIME });
+        if (res.buffer == "0") {
+            setTimes(180 - res.netx_login_time);
+            setLoginTimesIsShow(true);
+            setTimeout(() => {
+                getNextText();
+            }, 1000);
+        } else {
+            setLoginTimesIsShow(false);
+        }
     }
-
 
     return (
         <ImageBackground source={require('../assets/images/background.jpg')} style={{ width: '100%', height: '100%' }}>
             <View style={styles.content}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={text => setPhone(text)}
-                    value={phone}
-                    placeholder='手机号'
+                    onChangeText={text => setUsername(text)}
+                    value={username}
+                    placeholder='账 号'
                 />
                 <TextInput
                     style={styles.input}
                     onChangeText={text => setPassword(text)}
                     value={password}
                     secureTextEntry={true}
-                    placeholder='密  码'
+                    placeholder='密 码'
                 />
-                {isRegister ? (
-                    <View style={styles.code}>
-                        <TextInput
-                            style={[styles.input, { width: 120, marginRight: 20 }]}
-                            onChangeText={text => setCode(text)}
-                            value={code}
-                            placeholder='验证码'
-                        />
-                        <TouchableHighlight
-                            onPress={() => sandCode()}
-                            style={[styles.button, { width: 100, borderRadius: 4 }]}
-                            disabled={isSendCode}>
-                            <View>
-                                {isSendCode ? <ActivityIndicator color="#fff" size="large" /> :
-                                    <Text style={styles.button_text}>{codeText}</Text>}
-                            </View>
-                        </TouchableHighlight>
-                    </View>) : null
-                }
-                <TouchableHighlight onPress={() => isRegister ? zhuce() : login()} style={styles.button} >
+                <TouchableHighlight onPress={() => login()} style={styles.button} >
                     <View>
-                        <Text style={styles.button_text}>{isRegister ? '注册' : '登录'}</Text>
+                        <Text style={styles.button_text}>{'登录'}</Text>
                     </View>
                 </TouchableHighlight>
-                <TouchableWithoutFeedback onPress={() => setRegister(!isRegister)} >
-                    <View>
-                        <Text style={styles.button_text}>{isRegister ? '去登录' : '去注册'}</Text>
-                    </View>
-                </TouchableWithoutFeedback>
             </View>
         </ImageBackground>
     )

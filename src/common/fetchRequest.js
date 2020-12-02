@@ -5,12 +5,10 @@
  * @return 返回Promise
  */
 import { Toast } from '@ant-design/react-native';
-import { common_url } from '../config/config'
-let token = '';
-function fetchRequest(url, method = 'GET', params = '') {
+import { common_url } from '../config/cmd'
+function fetchRequest(method = 'GET', params = '') {
     let header = {
-        "Content-Type": "application/json;charset=UTF-8",
-        "accesstoken": token
+        "Content-Type": "application/json;charset=UTF-8"
     };
     let data = {}
     if (params) {
@@ -26,7 +24,7 @@ function fetchRequest(url, method = 'GET', params = '') {
         }
     }
     return new Promise((resolve, reject) => {
-        timeout_fetch(fetch(common_url + url, data)).then((response) => response.json())
+        timeout_fetch(fetch(common_url, data)).then((response) => response.json())
             .then((responseData) => {
                 resolve(responseData);
             })
@@ -55,6 +53,15 @@ function timeout_fetch(fetch_promise, timeout = 10000) {
     return abortable_promise;
 }
 
-
-
-export default fetchRequest
+export const fetchRequest_post = async(data)=>{
+    data.method = 'POST'
+    data.sessionId = '';
+    let res = await fetchRequest('POST', data)
+    return res
+}
+export const fetchRequest_get = async(data)=>{
+    data.method = 'GET'
+    data.sessionId = '';
+    let res = await fetchRequest('POST', data)
+    return res
+}
