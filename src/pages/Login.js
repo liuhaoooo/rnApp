@@ -5,20 +5,17 @@ import { Context } from '../../App'
 import { changeLoginStateAction } from '../store/action/action'
 import { CMD } from '../config/cmd'
 import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
-import { encode } from 'react-native-base64'
+import base64 from 'react-native-base64'
 
 export default Login = ({ navigation }) => {
-    const { state, dispatch } = useContext(Context)//登录状态
+    const { state, dispatch } = useContext(Context)
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [times, setTimes] = useState(0)
     const [loginTimesIsShow, setLoginTimesIsShow] = useState(false)
-
     useEffect(() => {
-        return () => {
-            getNextText()
-        };
-    }, [])
+        getNextText()
+    },[]);
     //登录
     async function login() {
         if (!username || !password) {
@@ -26,21 +23,22 @@ export default Login = ({ navigation }) => {
             return
         }
         const key = Toast.loading('登录中...')
-        dispatch(changeLoginStateAction(true))
         let json = {
             cmd: CMD.LOGIN,
             username: username,
-            passwd: encode(password),
+            passwd: base64.encode(password),
             isAutoUpgrade: "0"
         };
         fetchRequest_post(json)
             .then(res => {
-                if (res.login_fail == "fail") {
+                if (res.login_fail === "fail") {
                     Portal.remove(key)
+                    Toast.info({ content: '登录失败', duration: 1, mask: false })
                     if (parseInt(res.login_times, 10) < 1) {
                         getNextText();
                     }
                 } else {//登录成功
+                    Portal.remove(key)
                     dispatch(changeLoginStateAction(true))
                 }
             })
