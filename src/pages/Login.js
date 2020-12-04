@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
+import { AsyncStorage, View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
 import { Portal, Toast, ActivityIndicator } from '@ant-design/react-native';
 import { CMD } from '../config/cmd'
 import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
 import base64 from 'react-native-base64'
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 const Login = (props) => {
     const [username, setUsername] = useState('')
@@ -13,12 +13,12 @@ const Login = (props) => {
     const [loginTimesIsShow, setLoginTimesIsShow] = useState(false)
     useEffect(() => {
         getNextText()
-    },[]);
+    }, []);
     //登录
     async function login() {
-        if(!username||!password){
+        if (!username || !password) {
             Toast.loading({ content: '登录中...', duration: 1, mask: false })
-            props.changeLoginStateAction(true)
+            // props.changeLoginStateAction(true)
             return
         }
         let json = {
@@ -28,13 +28,16 @@ const Login = (props) => {
             isAutoUpgrade: "0"
         };
         fetchRequest_post(json)
-            .then(res => {
+            .then(async res => {
                 if (res.login_fail === "fail") {
                     Toast.fail({ content: `登录失败,剩余次数${res.login_times}`, duration: 1, mask: false })
                     if (parseInt(res.login_times, 10) < 1) {
                         getNextText();
                     }
                 } else {//登录成功
+                    try {
+                        await AsyncStorage.setItem('sessionId', res.sessionId);
+                    } catch (error) { }
                     props.changeLoginStateAction(true)
                 }
             })

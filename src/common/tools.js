@@ -1,10 +1,11 @@
-import { Alert } from 'react-native';
+import { Alert,AsyncStorage } from 'react-native';
 import { CMD } from "../config/cmd";
 import { fetchRequest_get, fetchRequest_post } from "./fetchRequest";
 import store from '../redux/reducer/index'
 export const logout_tool = (message) => {
     if (!message) {
         fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
+            AsyncStorage.clear()
             store.dispatch({
                 type: 'change_loginState',
                 value: false
@@ -22,6 +23,7 @@ export const logout_tool = (message) => {
             text: '确定',
             onPress: () => {
                 fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
+                    AsyncStorage.clear()
                     store.dispatch({
                         type: 'change_loginState',
                         value: false

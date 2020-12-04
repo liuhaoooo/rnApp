@@ -1,18 +1,19 @@
-/**
- * @param {string} url 接口地址
- * @param {string} method 请求方法：GET、POST，只能大写
- * @param {JSON} [params=''] body的请求参数，默认为空
- * @return 返回Promise
- */
+import { AsyncStorage } from "react-native"
 import { Toast } from '@ant-design/react-native';
 import { common_url } from '../config/cmd'
 import store from '../redux/reducer/index'
-function fetchRequest(method = 'GET', params = '') {
+async function fetchRequest(method = 'GET', params = '') {
     let header = {
         "Content-Type": "application/json;charset=UTF-8"
     };
     let data = {}
     if (params) {
+        try {
+            const value = await AsyncStorage.getItem('sessionId');
+            params.sessionId = value == null ? '' : value
+        } catch (error) {
+            params.sessionId = ''
+        }
         data = {
             method: method,
             headers: header,
@@ -27,7 +28,7 @@ function fetchRequest(method = 'GET', params = '') {
     return new Promise((resolve, reject) => {
         timeout_fetch(fetch(common_url, data)).then((response) => response.json())
             .then((responseData) => {
-                if(responseData.message=='NO_AUTH'){
+                if (responseData.message == 'NO_AUTH') {
                     store.dispatch({
                         type: 'change_loginState',
                         value: false
@@ -61,15 +62,13 @@ function timeout_fetch(fetch_promise, timeout = 10000) {
     return abortable_promise;
 }
 
-export const fetchRequest_post = async(data)=>{
+export const fetchRequest_post = async (data) => {
     data.method = 'POST'
-    data.sessionId = '';
     let res = await fetchRequest('POST', data)
     return res
 }
-export const fetchRequest_get = async(data)=>{
+export const fetchRequest_get = async (data) => {
     data.method = 'GET'
-    data.sessionId = '';
     let res = await fetchRequest('POST', data)
     return res
 }
