@@ -1,12 +1,14 @@
 import { Alert } from 'react-native';
 import { CMD } from "../config/cmd";
 import { fetchRequest_get, fetchRequest_post } from "./fetchRequest";
-import { changeLoginStateAction } from '../store/action/action'
-
-export const logout_tool = (dispatch, message) => {
+import store from '../redux/reducer/index'
+export const logout_tool = (message) => {
     if (!message) {
         fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
-            dispatch(changeLoginStateAction(false))
+            store.dispatch({
+                type: 'change_loginState',
+                value: false
+            })
         });
         return
     }
@@ -20,7 +22,10 @@ export const logout_tool = (dispatch, message) => {
             text: '确定',
             onPress: () => {
                 fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
-                    dispatch(changeLoginStateAction(false))
+                    store.dispatch({
+                        type: 'change_loginState',
+                        value: false
+                    })
                 });
             }
         }
@@ -28,7 +33,7 @@ export const logout_tool = (dispatch, message) => {
 }
 
 
-export const restart_tool = (dispatch, message) => {
+export const restart_tool = (message) => {
     if (!message) {
         fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(() => { });
         return

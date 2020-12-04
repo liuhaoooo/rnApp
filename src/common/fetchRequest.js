@@ -6,7 +6,7 @@
  */
 import { Toast } from '@ant-design/react-native';
 import { common_url } from '../config/cmd'
-
+import store from '../redux/reducer/index'
 function fetchRequest(method = 'GET', params = '') {
     let header = {
         "Content-Type": "application/json;charset=UTF-8"
@@ -28,7 +28,10 @@ function fetchRequest(method = 'GET', params = '') {
         timeout_fetch(fetch(common_url, data)).then((response) => response.json())
             .then((responseData) => {
                 if(responseData.message=='NO_AUTH'){
-                    // dispatch(changeLoginStateAction(false))
+                    store.dispatch({
+                        type: 'change_loginState',
+                        value: false
+                    })
                 }
                 console.log(responseData)
                 resolve(responseData);

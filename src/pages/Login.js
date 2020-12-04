@@ -1,14 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
 import { Portal, Toast, ActivityIndicator } from '@ant-design/react-native';
-import { Context } from '../../App'
-import { changeLoginStateAction } from '../store/action/action'
 import { CMD } from '../config/cmd'
 import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
 import base64 from 'react-native-base64'
+import {connect} from 'react-redux';
 
-export default Login = ({ navigation }) => {
-    const { state, dispatch } = useContext(Context)
+const Login = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [times, setTimes] = useState(0)
@@ -18,11 +16,10 @@ export default Login = ({ navigation }) => {
     },[]);
     //登录
     async function login() {
-        if (!username || !password) {
-            dispatch(changeLoginStateAction(true))
+        if(!username||!password){
+            props.changeLoginStateAction(true)
             return
         }
-        const key = Toast.loading('登录中...')
         let json = {
             cmd: CMD.LOGIN,
             username: username,
@@ -32,14 +29,12 @@ export default Login = ({ navigation }) => {
         fetchRequest_post(json)
             .then(res => {
                 if (res.login_fail === "fail") {
-                    Portal.remove(key)
-                    Toast.info({ content: '登录失败', duration: 1, mask: false })
+                    Toast.fail({ content: `登录失败,剩余次数${res.login_times}`, duration: 1, mask: false })
                     if (parseInt(res.login_times, 10) < 1) {
                         getNextText();
                     }
                 } else {//登录成功
-                    Portal.remove(key)
-                    dispatch(changeLoginStateAction(true))
+                    props.changeLoginStateAction(true)
                 }
             })
     }
@@ -81,7 +76,17 @@ export default Login = ({ navigation }) => {
         </ImageBackground>
     )
 }
-
+const mapDispatchToProps = (dispatch) => {
+    return {
+        changeLoginStateAction: (value) => {
+            dispatch({
+                type: 'change_loginState',
+                value
+            });
+        }
+    }
+};
+export default connect(null, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
     content: {

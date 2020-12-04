@@ -1,10 +1,10 @@
-import { CHANGE_LOGINSTATE, CHANGE_COUNT } from '../action/action'
+import { createStore } from 'redux'
+import { CHANGE_LOGINSTATE, CHANGE_COUNT } from '../action'
 export const initState = {
     loginState: false,
     count: 0
 }
-
-export default (state, action) => {
+reducer = (state = initState, action) => {
     let newState = JSON.parse(JSON.stringify(state))
     switch (action.type) {
         case CHANGE_LOGINSTATE:
@@ -16,3 +16,4 @@ export default (state, action) => {
         default: return state
     }
 }
+export default store = createStore(reducer);
