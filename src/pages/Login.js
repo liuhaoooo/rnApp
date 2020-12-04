@@ -17,6 +17,7 @@ const Login = (props) => {
     //登录
     async function login() {
         if(!username||!password){
+            Toast.loading({ content: '登录中...', duration: 1, mask: false })
             props.changeLoginStateAction(true)
             return
         }
