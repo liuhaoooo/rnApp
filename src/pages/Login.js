@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { AsyncStorage, View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
-import { Portal, Toast, ActivityIndicator } from '@ant-design/react-native';
+import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage';
+import { Portal, Toast } from '@ant-design/react-native';
 import { CMD } from '../config/cmd'
 import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
 import base64 from 'react-native-base64'
 import { connect } from 'react-redux';
+import { changeLoginStateAction } from '../redux/action/index';
 
 const Login = (props) => {
     const [username, setUsername] = useState('')
@@ -18,7 +20,6 @@ const Login = (props) => {
     async function login() {
         if (!username || !password) {
             Toast.loading({ content: '登录中...', duration: 1, mask: false })
-            // props.changeLoginStateAction(true)
             return
         }
         let json = {
@@ -83,10 +84,7 @@ const Login = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         changeLoginStateAction: (value) => {
-            dispatch({
-                type: 'change_loginState',
-                value
-            });
+            dispatch(changeLoginStateAction(value));
         }
     }
 };

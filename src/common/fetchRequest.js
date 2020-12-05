@@ -1,7 +1,8 @@
-import { AsyncStorage } from "react-native"
+import AsyncStorage from '@react-native-community/async-storage';
 import { Toast } from '@ant-design/react-native';
 import { common_url } from '../config/cmd'
 import store from '../redux/reducer/index'
+import { changeLoginStateAction } from '../redux/action/index';
 async function fetchRequest(method = 'GET', params = '') {
     let header = {
         "Content-Type": "application/json;charset=UTF-8"
@@ -29,12 +30,9 @@ async function fetchRequest(method = 'GET', params = '') {
         timeout_fetch(fetch(common_url, data)).then((response) => response.json())
             .then((responseData) => {
                 if (responseData.message == 'NO_AUTH') {
-                    store.dispatch({
-                        type: 'change_loginState',
-                        value: false
-                    })
+                    store.dispatch(changeLoginStateAction(false))
                 }
-                console.log(responseData)
+                // console.log(responseData)
                 resolve(responseData);
             })
             .catch((err) => {

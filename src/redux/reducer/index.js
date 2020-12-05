@@ -1,17 +1,17 @@
 import { createStore } from 'redux'
-import { CHANGE_LOGINSTATE, CHANGE_COUNT } from '../action'
+import { CHANGE_LOGINSTATE, CHANGE_LOADING } from '../action'
 export const initState = {
     loginState: false,
-    count: 0
+    loadingKey:null
 }
-reducer = (state = initState, action) => {
+ const reducer = (state = initState, action) => {
     let newState = JSON.parse(JSON.stringify(state))
     switch (action.type) {
         case CHANGE_LOGINSTATE:
             newState.loginState = action.value
             return newState
-        case CHANGE_COUNT:
-            newState.count += action.value
+        case CHANGE_LOADING:
+            newState.loadingKey = action.value
             return newState
         default: return state
     }
