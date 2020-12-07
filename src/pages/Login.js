@@ -7,6 +7,7 @@ import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
 import base64 from 'react-native-base64'
 import { connect } from 'react-redux';
 import { changeLoginStateAction } from '../redux/action/index';
+import { loading_tool } from '../common/tools';
 
 const Login = (props) => {
     const [username, setUsername] = useState('')
@@ -19,7 +20,7 @@ const Login = (props) => {
     //登录
     async function login() {
         if (!username || !password) {
-            Toast.loading({ content: '登录中...', duration: 1, mask: false })
+            loading_tool(true)
             return
         }
         let json = {
@@ -39,7 +40,7 @@ const Login = (props) => {
                     try {
                         await AsyncStorage.setItem('sessionId', res.sessionId);
                     } catch (error) { }
-                    props.changeLoginStateAction(true)
+                    props.changeLoginState(true)
                 }
             })
     }
@@ -83,7 +84,7 @@ const Login = (props) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        changeLoginStateAction: (value) => {
+        changeLoginState: (value) => {
             dispatch(changeLoginStateAction(value));
         }
     }

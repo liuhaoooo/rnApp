@@ -1,6 +1,4 @@
 import React, { useReducer } from 'react'
-import { View, Button, Text, Alert } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -13,10 +11,10 @@ const Tab = createBottomTabNavigator();
 export default Home = () => {
     return (
         <Tab.Navigator
-            tabBarOptions={{
-                activeTintColor: Colors.primary,
-                inactiveTintColor: Colors.dark,
-            }}
+            initialRouteName="Info"
+            activeColor="#f0edf6"
+            inactiveColor="#3e2465"
+            barStyle={{ backgroundColor: '#694fad' }}
         >
             <Tab.Screen
                 name="Info"

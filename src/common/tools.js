@@ -1,10 +1,10 @@
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CMD } from "../config/cmd";
-import { Portal, Toast } from '@ant-design/react-native';
+import { Portal, Toast, Modal } from '@ant-design/react-native';
 import { fetchRequest_get, fetchRequest_post } from "./fetchRequest";
 import store from '../redux/reducer/index'
-import { changeLoginStateAction } from '../redux/action/index';
+import { changeLoginStateAction, changeLoading } from '../redux/action/index';
 export const logout_tool = (message) => {
     if (!message) {
         fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
@@ -29,6 +29,22 @@ export const logout_tool = (message) => {
             }
         }
     ]);
+    // Modal.alert('提示', message, [
+    //     {
+    //         text: '取消',
+    //         onPress: () => { },
+    //         style: 'cancel',
+    //     },
+    //     {
+    //         text: '确定',
+    //         onPress: () => {
+    //             fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
+    //                 AsyncStorage.clear()
+    //                 store.dispatch(changeLoginStateAction(false))
+    //             });
+    //         }
+    //     }
+    // ]);
 }
 
 
@@ -58,14 +74,15 @@ export const date_tool = val => {
     let minute = Math.floor((val - day * 24 * 3600 - hour * 3600) / 60);
     return `${day}天 ${hour}小时 ${minute}分`
 }
-export const loading_tool = (tag)=>{
-    if(tag){
-        const loading = Toast.loading({ content: '保存中...', duration: 10, mask: false })
-        store.dispatch({
-            type: 'change_liading',
-            value: loading
-        })
-    }else{
-        Portal.remove(loading)
+export const loading_tool = (tag) => {
+    let load = store.getState()
+    if (tag) {
+        try {
+            Portal.remove(load.loadingKey)
+        } catch (error) { }
+        const loading = Toast.loading({ content: '请稍等...', duration: 15 })
+        store.dispatch(changeLoading(loading))
+    } else {
+        Portal.remove(load.loadingKey)
     }
 }
