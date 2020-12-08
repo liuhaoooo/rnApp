@@ -8,21 +8,22 @@ import base64 from 'react-native-base64'
 import { connect } from 'react-redux';
 import { changeLoginStateAction } from '../redux/action/index';
 import { loading_tool } from '../common/tools';
-
+import { i18n } from '../i18n/index';
 const Login = (props) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [times, setTimes] = useState(0)
     const [loginTimesIsShow, setLoginTimesIsShow] = useState(false)
+    const [loginLoading, setLoginLoading] = useState(false)
     useEffect(() => {
         getNextText()
     }, []);
     //登录
     async function login() {
         if (!username || !password) {
-            loading_tool(true)
             return
         }
+        loading_tool(true, i18n.t('tips.logining'))
         let json = {
             cmd: CMD.LOGIN,
             username: username,
@@ -32,7 +33,8 @@ const Login = (props) => {
         fetchRequest_post(json)
             .then(async res => {
                 if (res.login_fail === "fail") {
-                    Toast.fail({ content: `登录失败,剩余次数${res.login_times}`, duration: 1, mask: false })
+                    loading_tool(false)
+                    Toast.fail({ content: i18n.t('tips.loginfail') + res.login_times, duration: 1, mask: false })
                     if (parseInt(res.login_times, 10) < 1) {
                         getNextText();
                     }
@@ -40,6 +42,7 @@ const Login = (props) => {
                     try {
                         await AsyncStorage.setItem('sessionId', res.sessionId);
                     } catch (error) { }
+                    loading_tool(false)
                     props.changeLoginState(true)
                 }
             })
@@ -64,18 +67,18 @@ const Login = (props) => {
                     style={styles.input}
                     onChangeText={text => setUsername(text)}
                     value={username}
-                    placeholder='账 号'
+                    placeholder={i18n.t('login.username')}
                 />
                 <TextInput
                     style={styles.input}
                     onChangeText={text => setPassword(text)}
                     value={password}
                     secureTextEntry={true}
-                    placeholder='密 码'
+                    placeholder={i18n.t('login.password')}
                 />
-                <TouchableHighlight onPress={() => login()} style={styles.button} >
+                <TouchableHighlight onPress={() => login()} style={styles.button} disabled={loginTimesIsShow}>
                     <View>
-                        <Text style={styles.button_text}>{'登录'}</Text>
+                        <Text style={styles.button_text}>{loginTimesIsShow ? `${times} s` : i18n.t('login.loginbtn')}</Text>
                     </View>
                 </TouchableHighlight>
             </View>

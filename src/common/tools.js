@@ -4,6 +4,7 @@ import { CMD } from "../config/cmd";
 import { Portal, Toast, Modal } from '@ant-design/react-native';
 import { fetchRequest_get, fetchRequest_post } from "./fetchRequest";
 import store from '../redux/reducer/index'
+import { i18n } from '../i18n/index';
 import { changeLoginStateAction, changeLoading } from '../redux/action/index';
 export const logout_tool = (message) => {
     if (!message) {
@@ -13,14 +14,14 @@ export const logout_tool = (message) => {
         });
         return
     }
-    Alert.alert('提示', message, [
+    Modal.alert(i18n.t('tips.tip'), message, [
         {
-            text: '取消',
+            text: i18n.t('tips.cancel'),
             onPress: () => { },
-            style: 'cancel'
+            style: 'cancel',
         },
         {
-            text: '确定',
+            text: i18n.t('tips.ok'),
             onPress: () => {
                 fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
                     AsyncStorage.clear()
@@ -29,22 +30,6 @@ export const logout_tool = (message) => {
             }
         }
     ]);
-    // Modal.alert('提示', message, [
-    //     {
-    //         text: '取消',
-    //         onPress: () => { },
-    //         style: 'cancel',
-    //     },
-    //     {
-    //         text: '确定',
-    //         onPress: () => {
-    //             fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
-    //                 AsyncStorage.clear()
-    //                 store.dispatch(changeLoginStateAction(false))
-    //             });
-    //         }
-    //     }
-    // ]);
 }
 
 
@@ -53,14 +38,14 @@ export const restart_tool = (message) => {
         fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(() => { });
         return
     }
-    Alert.alert('提示', message, [
+    Alert.alert(i18n.t('tips.tip'), message, [
         {
-            text: '取消',
+            text: i18n.t('tips.cancel'),
             onPress: () => { },
             style: 'cancel'
         },
         {
-            text: '确定', onPress: () => {
+            text: i18n.t('tips.ok'), onPress: () => {
                 fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
                     fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(() => { });
                 });
@@ -74,13 +59,13 @@ export const date_tool = val => {
     let minute = Math.floor((val - day * 24 * 3600 - hour * 3600) / 60);
     return `${day}天 ${hour}小时 ${minute}分`
 }
-export const loading_tool = (tag) => {
+export const loading_tool = (tag, msg = '') => {
     let load = store.getState()
     if (tag) {
         try {
             Portal.remove(load.loadingKey)
         } catch (error) { }
-        const loading = Toast.loading({ content: '请稍等...', duration: 15 })
+        const loading = Toast.loading({ content: msg ? msg : i18n.t('tips.wait'), duration: 15 })
         store.dispatch(changeLoading(loading))
     } else {
         Portal.remove(load.loadingKey)

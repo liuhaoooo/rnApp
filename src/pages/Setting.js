@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from 'react'
+import { i18n } from '../i18n/index';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Wifiset from './setting/Wifiset'
@@ -157,17 +158,17 @@ export default Setting = () => {
             <Tab.Screen
                 name="wifi_24"
                 component={Wifiset_24g}
-                options={{ tabBarLabel: 'Wi-Fi 2G设置' }}
+                options={{ tabBarLabel: i18n.t('wifiSetting.tab_wifi24') }}
             />
             <Tab.Screen
                 name="wifi_5"
                 component={Wifiset_5g}
-                options={{ tabBarLabel: 'Wi-Fi 5G设置' }}
+                options={{ tabBarLabel: i18n.t('wifiSetting.tab_wifi5') }}
             />
             <Tab.Screen
                 name="wps"
                 component={Wpsset}
-                options={{ tabBarLabel: 'WPS 设置' }}
+                options={{ tabBarLabel: i18n.t('wifiSetting.tab_wps') }}
             />
         </Tab.Navigator>
     )

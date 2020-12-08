@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { ScrollView, View } from 'react-native';
 import { InputItem, Toast, Switch, List, Picker, Button, Portal, Provider } from '@ant-design/react-native'
 import base64 from 'react-native-base64'
+import { i18n } from '../../i18n/index';
 import { loading_tool } from '../../common/tools';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 import { useFocusEffect } from '@react-navigation/native';
@@ -74,7 +75,9 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
         }
         fetchRequest_post(json).then(res => {
             postData_adv()
-        }).catch(err => { })
+        }).catch(err => { 
+            postData_adv()
+        })
     }
     const postData_adv = () => {
         if (!showAdv) {
@@ -90,6 +93,9 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
             bandWidth: bandwidth[0],
         }
         fetchRequest_post(json).then(res => {
+            loading_tool(false)
+            Toast.info({ content: '设置成功', duration: 1, mask: false })
+        }).catch(err => { 
             loading_tool(false)
             Toast.info({ content: '设置成功', duration: 1, mask: false })
         })

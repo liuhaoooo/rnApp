@@ -1,7 +1,8 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useCallback } from 'react'
+import { i18n } from '../i18n/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { useFocusEffect } from '@react-navigation/native';
 import Me from './Me'
 import Info from './Info'
 import Status from './Status'
@@ -20,7 +21,7 @@ export default Home = () => {
                 name="Info"
                 component={Info}
                 options={{
-                    tabBarLabel: '首页',
+                    tabBarLabel: i18n.t('home.home'),
                     tabBarIcon: ({ color, size }) => {
                         return <MaterialCommunityIcons name='home' size={size} color={color} />;
                     }
@@ -30,7 +31,7 @@ export default Home = () => {
                 name="Status"
                 component={Status}
                 options={{
-                    tabBarLabel: '设备',
+                    tabBarLabel: i18n.t('home.status'),
                     tabBarIcon: ({ color, size }) => {
                         return <MaterialCommunityIcons name='artstation' size={size} color={color} />;
                     }
@@ -40,7 +41,7 @@ export default Home = () => {
                 name="Setting"
                 component={Setting}
                 options={{
-                    tabBarLabel: '设置',
+                    tabBarLabel: i18n.t('home.setting'),
                     tabBarIcon: ({ color, size }) => {
                         return <MaterialCommunityIcons name="cog" size={size} color={color} />;
                     }
@@ -50,7 +51,7 @@ export default Home = () => {
                 name="Me"
                 component={Me}
                 options={{
-                    tabBarLabel: '我的',
+                    tabBarLabel: i18n.t('home.me'),
                     tabBarIcon: ({ color, size }) => {
                         return <MaterialCommunityIcons name='account-circle' size={size} color={color} />;
                     }
