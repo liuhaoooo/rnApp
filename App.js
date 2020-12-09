@@ -1,9 +1,11 @@
-import React, { createContext, useReducer, useCallback } from 'react';
+import React, { createContext, useReducer, useCallback, useEffect } from 'react';
 import { Provider } from '@ant-design/react-native';
 import { i18n } from './src/i18n/index';
+import { Appearance } from 'react-native';
 //react-navigation
-import { NavigationContainer, DrawerActions, useFocusEffect } from '@react-navigation/native';
+import { NavigationContainer, DrawerActions, useFocusEffect,DefaultTheme,DarkTheme, } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 //pages
 import Home from './src/pages/Home'
 import Login from './src/pages/Login'
@@ -19,18 +21,24 @@ import { fetchRequest_get, fetchRequest_post } from './src/common/fetchRequest'
 import { CMD } from './src/config/cmd'
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-
-let getStatus_Interval = null
+const scheme = Appearance.getColorScheme()
+let getStatus_Timeout = null
+const getLoginStatus = () => {
+  fetchRequest_get({ cmd: CMD.GET_DEVICE_NAME }).then(res => {
+    getStatus_Timeout = setTimeout(() => {
+      getLoginStatus()
+    }, 5000)
+  }).catch(err=>{
+    clearTimeout(getStatus_Timeout);
+  })
+}
 //抽屉切换页面
 const DrawerPage = () => {
   useFocusEffect(
     useCallback(() => {
-      console.log(111111)
-      clearInterval(getStatus_Interval);
-      getStatus_Interval = setInterval(() => {
-        fetchRequest_get({ cmd: CMD.GET_DEVICE_NAME });
-      }, 5000);
-      return () => clearInterval(getStatus_Interval);
+      clearTimeout(getStatus_Timeout);
+      getLoginStatus()
+      return () => clearTimeout(getStatus_Timeout);
     }, [])
   )
   return (
@@ -60,20 +68,35 @@ const authScreens = [
 const userScreens = [
   { name: 'Login', component: Login, headerShown: false, title: '登录' }
 ]
+//主题
+const MyTheme = {
+  dark: false,
+  colors: {
+    primary: '#2ba245',
+    background: 'rgb(242, 242, 242)',
+    card: 'rgb(255, 255, 255)',
+    text: '#333',
+    border: 'rgb(199, 199, 204)',
+    notification: '#2ba245',
+  },
+};
+
 const App = (props) => {
   return (
     <Provider>
-      <NavigationContainer>
-        <Stack.Navigator gesturesEnabled={true}>
-          {[...(props.loginState ? authScreens : userScreens)].map((item, index) => (
-            <Stack.Screen
-              options={{ headerShown: item.headerShown, title: item.title }}
-              name={item.name}
-              component={item.component}
-              key={index} />
-          ))}
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer theme={MyTheme}  /*theme={scheme === 'dark' ? DarkTheme : DefaultTheme}*/>
+          <Stack.Navigator gesturesEnabled={true}>
+            {[...(props.loginState ? authScreens : userScreens)].map((item, index) => (
+              <Stack.Screen
+                options={{ headerShown: item.headerShown, title: item.title }}
+                name={item.name}
+                component={item.component}
+                key={index} />
+            ))}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Provider>
   )
 }
@@ -83,3 +106,5 @@ const mapStateToProps = (state) => {
   }
 }
 export default connect(mapStateToProps, null)(App);
+
+

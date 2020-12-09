@@ -7,7 +7,8 @@ export default {
         ok:'确定',
         cancel:'取消',
         fail:'请求失败',
-        wait:'请稍等...'
+        wait:'请稍等...',
+        logout:'确定退出登陆吗?'
     },
     login: {
         loginbtn: '登 录',

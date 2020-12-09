@@ -39,11 +39,12 @@ async function fetchRequest(method = 'POST', params = '') {
                             }
                         },
                     ]);
+                    reject(null)
                 }
                 resolve(res);
             }).catch(err => {
                 loading_tool(false)
-                Toast.info({ content: i18n.t('tips.fail'), duration: 1, mask: false })
+                // Toast.info({ content: i18n.t('tips.fail'), duration: 1, mask: false })
                 reject(err);
             });
     });

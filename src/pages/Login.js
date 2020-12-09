@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { View, TouchableHighlight, TouchableWithoutFeedback, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
+import { View, TouchableHighlight, Text, TextInput, StyleSheet, ImageBackground } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import { Portal, Toast } from '@ant-design/react-native';
 import { CMD } from '../config/cmd'

@@ -2,7 +2,6 @@ import React, { useReducer, useCallback } from 'react'
 import { i18n } from '../i18n/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useFocusEffect } from '@react-navigation/native';
 import Me from './Me'
 import Info from './Info'
 import Status from './Status'

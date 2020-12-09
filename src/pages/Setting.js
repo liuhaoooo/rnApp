@@ -94,11 +94,11 @@ const Wifiset_5g = () => {
             { label: "TKIP+AES", value: "TKIPAES" }
         ],
         power_option: [
-            { name: "100%", value: '100' },
-            { name: "75%", value: '80' },
-            { name: "50%", value: '50' },
-            { name: "35%", value: '25' },
-            { name: "15%", value: '10' }
+            { label: "100%", value: '100' },
+            { label: "75%", value: '80' },
+            { label: "50%", value: '50' },
+            { label: "35%", value: '25' },
+            { label: "15%", value: '10' }
         ],
         channel_option: [
             { label: "自动", value: "0" },
@@ -117,15 +117,15 @@ const Wifiset_5g = () => {
             { label: "13", value: "13" }
         ],
         workMode_option: [
-            { name: "11a only", value: "2" },
-            { name: "11a/n", value: "8" },
-            { name: "11a/n/ac", value: "14" },
-            { name: "11n/ac/ax", value: "17" },
+            { label: "11a only", value: "2" },
+            { label: "11a/n", value: "8" },
+            { label: "11a/n/ac", value: "14" },
+            { label: "11n/ac/ax", value: "17" },
         ],
         bandwidth_option: [
-            { name: "20MHz", value: "0" },
-            { name: "40MHz", value: "1" },
-            { name: "80MHz", value: "2" },
+            { label: "20MHz", value: "0" },
+            { label: "40MHz", value: "1" },
+            { label: "80MHz", value: "2" },
         ],
         wep_option: [
             { label: 'open', value: "OpenSystem" },
@@ -166,10 +166,15 @@ export default Setting = () => {
                 options={{ tabBarLabel: i18n.t('wifiSetting.tab_wifi5') }}
             />
             <Tab.Screen
-                name="wps"
+                name="wps_24"
                 component={Wpsset}
                 options={{ tabBarLabel: i18n.t('wifiSetting.tab_wps') }}
             />
+            {/* <Tab.Screen
+                name="wps_5"
+                component={Wpsset}
+                options={{ tabBarLabel: i18n.t('wifiSetting.tab_wps') }}
+            /> */}
         </Tab.Navigator>
     )
 }

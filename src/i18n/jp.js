@@ -7,7 +7,8 @@ export default {
         ok:'確認',
         cancel:'キャンセル',
         fail:'要求に失敗しました',
-        wait:'ちょっと待ってください...'
+        wait:'ちょっと待ってください...',
+        logout:'ログインを終了しますか？'
     },
     login: {
         loginbtn: 'ログイン',
