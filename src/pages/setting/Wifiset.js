@@ -26,7 +26,7 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     const [bandwidth, setBandwidth] = useState([])//带宽
     useFocusEffect(
         React.useCallback(() => {
-            loading_tool(true)
+            // loading_tool(true)
             getData()
             return () => loading_tool(false);
         }, [])

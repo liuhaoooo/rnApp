@@ -3,8 +3,8 @@ import { i18n } from '../i18n/index';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Wifiset from './setting/Wifiset'
-import Wpsset from './setting/Wpsset'
 import { CMD } from '../config/cmd'
+import { loading_tool } from '../common/tools';
 
 const Tab = createMaterialTopTabNavigator();
 const Wifiset_24g = () => {
@@ -146,13 +146,18 @@ const Wifiset_5g = () => {
     return <Wifiset id={'5g'} option={option} cmd={cmd} />
 }
 export default Setting = () => {
+    // useFocusEffect(
+    //     React.useCallback(() => {
+    //         loading_tool(true)
+    //         return () => loading_tool(false);
+    //     }, [])
+    // );
     return (
         <Tab.Navigator
             initialRouteName="wifi_24"
             tabBarOptions={{
                 activeTintColor: '#333',
                 labelStyle: { fontSize: 12 },
-                style: { backgroundColor: 'powderblue' },
             }}
         >
             <Tab.Screen
@@ -165,16 +170,6 @@ export default Setting = () => {
                 component={Wifiset_5g}
                 options={{ tabBarLabel: i18n.t('wifiSetting.tab_wifi5') }}
             />
-            <Tab.Screen
-                name="wps_24"
-                component={Wpsset}
-                options={{ tabBarLabel: i18n.t('wifiSetting.tab_wps') }}
-            />
-            {/* <Tab.Screen
-                name="wps_5"
-                component={Wpsset}
-                options={{ tabBarLabel: i18n.t('wifiSetting.tab_wps') }}
-            /> */}
         </Tab.Navigator>
     )
 }

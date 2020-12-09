@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { List, Flex, Switch, Picker, WhiteSpace, Modal } from '@ant-design/react-native';
-import { ScrollView, View, Button, Text } from 'react-native';
-import { logout_tool, loading_tool } from '../common/tools'
-import { i18n } from '../i18n/index';
-import { CMD } from '../config/cmd'
+import { ScrollView, View, Button, Text, StyleSheet } from 'react-native';
+import { logout_tool, loading_tool } from '../../common/tools'
+import { i18n } from '../../i18n/index';
+import { CMD } from '../../config/cmd'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useFocusEffect } from '@react-navigation/native';
-import { fetchRequest_get, fetchRequest_post } from '../common/fetchRequest'
+import { useFocusEffect,useNavigation } from '@react-navigation/native';
+import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 //led指示灯
 const LedSwitch = () => {
     const [ledSwitchVal, setLedSwitchVal] = useState(true)
@@ -73,6 +73,7 @@ const UserPopup = () => {
 }
 
 const Me = () => {
+    const navigation = useNavigation();
     const [showPopup, setShowPopup] = useState(false)
     return (
         <>
@@ -91,12 +92,27 @@ const Me = () => {
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}
             >
-                <WhiteSpace size="lg" />
+                <WhiteSpace size="sm" />
                 <List>
                     <List.Item arrow="horizontal" extra="superadmin" onPress={() => setShowPopup(true)}>
-                        <Ionicons name='md-person-circle-outline' size={60} color={'#ccc'} />
+                        <Ionicons name='md-person-circle-outline' size={40} color={'#ccc'} />
                     </List.Item>
                 </List>
+                <WhiteSpace size="lg" />
+                <Flex>
+                    <Flex.Item onPress={()=>navigation.push('Setting')}>
+                        <View style={style.center}>
+                            <Ionicons name='ios-wifi' size={60} color={'#bef8a1'} />
+                            <Text>Wi-Fi设置</Text>
+                        </View>
+                    </Flex.Item>
+                    <Flex.Item>
+                        <View style={{ borderLeftWidth: 1, borderLeftColor: '#e2e2e2', ...style.center }}>
+                            <Ionicons name='ios-globe-outline' size={54} color={'#bef8a1'} />
+                            <Text>网络设置</Text>
+                        </View>
+                    </Flex.Item>
+                </Flex>
                 <WhiteSpace size="lg" />
                 <List>
                     <LedSwitch />
@@ -110,9 +126,15 @@ const Me = () => {
                     <List.Item onPress={() => logout_tool(i18n.t('tips.logout'))}>
                         <Text style={{ fontSize: 14, textAlign: 'center', color: '#409EFF' }}>退出登录</Text>
                     </List.Item>
+                </List>
+                <WhiteSpace size="sm" />
+                <List>
                     <List.Item onPress={() => logout_tool(i18n.t('tips.logout'))}>
                         <Text style={{ fontSize: 14, textAlign: 'center', color: '#E6A23C' }}>重启设备</Text>
                     </List.Item>
+                </List>
+                <WhiteSpace size="sm" />
+                <List>
                     <List.Item onPress={() => logout_tool(i18n.t('tips.logout'))}>
                         <Text style={{ fontSize: 14, textAlign: 'center', color: '#F56C6C' }}>恢复出厂</Text>
                     </List.Item>
@@ -122,3 +144,13 @@ const Me = () => {
     )
 }
 export default Me
+
+const style = StyleSheet.create({
+    center: {
+        height: 80,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+    }
+})
