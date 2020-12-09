@@ -109,7 +109,7 @@ const Me = () => {
                     <Flex.Item>
                         <View style={{ borderLeftWidth: 1, borderLeftColor: '#e2e2e2', ...style.center }}>
                             <Ionicons name='ios-globe-outline' size={54} color={'#bef8a1'} />
-                            <Text>网络设置</Text>
+                            <Text>上网设置</Text>
                         </View>
                     </Flex.Item>
                 </Flex>

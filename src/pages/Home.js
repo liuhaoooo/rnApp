@@ -30,7 +30,7 @@ const Pages = () => {
                 options={{
                     tabBarLabel: i18n.t('home.home'),
                     tabBarIcon: ({ color, size }) => {
-                        return <MaterialCommunityIcons name='home' size={size} color={color} />;
+                        return <MaterialCommunityIcons name='artstation' size={size} color={color} />;
                     }
                 }}
             />
@@ -40,7 +40,7 @@ const Pages = () => {
                 options={{
                     tabBarLabel: i18n.t('home.status'),
                     tabBarIcon: ({ color, size }) => {
-                        return <MaterialCommunityIcons name='artstation' size={size} color={color} />;
+                        return <MaterialCommunityIcons name='view-grid' size={size} color={color} />;
                     }
                 }}
             />
@@ -58,9 +58,9 @@ const Pages = () => {
                 name="Setting"
                 component={Status}
                 options={{
-                    tabBarLabel: i18n.t('home.me'),
+                    tabBarLabel: i18n.t('home.tool'),
                     tabBarIcon: ({ color, size }) => {
-                        return <MaterialCommunityIcons name="account-circle" size={size} color={color} />;
+                        return <MaterialCommunityIcons name="briefcase-account" size={size} color={color} />;
                     }
                 }}
             />

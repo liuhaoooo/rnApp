@@ -19,7 +19,7 @@ export default {
         home:'首页',
         status:'设备',
         setting:'设置',
-        me:'我的'
+        tool:'工具'
     },
     wifiSetting:{
         tab_wifi24:'Wi-Fi 2G设置',

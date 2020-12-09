@@ -1,13 +1,15 @@
 import React, { useContext, useEffect } from 'react'
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View, StyleSheet } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { useFocusEffect } from '@react-navigation/native';
 import { NetworkInfo } from "react-native-network-info";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { List, Flex, Switch, Picker, WhiteSpace, Modal } from '@ant-design/react-native';
 export default Main = () => {
     useFocusEffect(
         React.useCallback(() => {
             getDeviceInfo()
-            return () => {}
+            return () => { }
         }, [])
     );
     const getDeviceInfo = async () => {
@@ -55,7 +57,73 @@ export default Main = () => {
     }
     return (
         <View>
-
+            <Flex>
+                <Flex.Item>
+                    <View style={style.wifiInfoCenter}>
+                        <Image
+                            style={style.tinyLogo}
+                            source={require('../../assets/images/earth.png')}
+                        />
+                    </View>
+                </Flex.Item>
+                <Flex.Item>
+                    <View style={style.wifiInfoCenter}>
+                        <Ionicons name='md-ellipsis-horizontal' size={30} color={'#bef8a1'} />
+                        <Text style={{fontSize:10}}>已连接</Text>
+                    </View>
+                </Flex.Item>
+                <Flex.Item>
+                    <View style={style.wifiInfoCenter}>
+                        <Image
+                            style={style.tinyLogo}
+                            source={require('../../assets/images/route.png')}
+                        />
+                    </View>
+                </Flex.Item>
+                <Flex.Item>
+                    <View style={style.wifiInfoCenter}>
+                        <Ionicons name='ios-close-outline' size={30} color={'#F56C6C'} />
+                        <Text style={{fontSize:10}}>未连接</Text>
+                    </View>
+                </Flex.Item>
+                <Flex.Item>
+                    <View style={style.wifiInfoCenter}>
+                        <Image
+                            style={style.tinyLogo}
+                            source={require('../../assets/images/phone.png')}
+                        />
+                    </View>
+                </Flex.Item>
+            </Flex>
+            <WhiteSpace size="lg" />
+            <Flex>
+                <Flex.Item>
+                    <View style={style.wifiInfoCenter}>
+                        <Ionicons name='ios-wifi' size={60} color={'#bef8a1'} />
+                        <Text>Wi-Fi 2.4G</Text>
+                    </View>
+                </Flex.Item>
+                <Flex.Item>
+                    <View style={style.wifiInfoCenter}>
+                        <Ionicons name='ios-wifi' size={60} color={'#bef8a1'} />
+                        <Text>Wi-Fi 5G</Text>
+                    </View>
+                </Flex.Item>
+            </Flex>
         </View>
     )
 }
+
+const style = StyleSheet.create({
+    wifiInfoCenter: {
+        height: 100,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+    },
+    tinyLogo: {
+        width: 60,
+        height: 60,
+    },
+})
