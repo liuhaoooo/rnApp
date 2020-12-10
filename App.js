@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider } from '@ant-design/react-native';
 import { Appearance } from 'react-native';
+import { NetworkInfo } from "react-native-network-info";
 //react-navigation
 import { NavigationContainer, DefaultTheme, DarkTheme, } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,7 +10,9 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { connect } from 'react-redux';
 import { fetchRequest_get, fetchRequest_post } from './src/common/fetchRequest'
 import { CMD } from './src/config/cmd'
-import { authScreens, userScreens } from './src/router/index'
+import { authScreens, userScreens, disconnect } from './src/router/index'
+import ant_themes from './src/styles/ant_themes'
+import { MyTheme } from './src/styles/themes'
 
 const Stack = createStackNavigator();
 const scheme = Appearance.getColorScheme()
@@ -23,31 +26,24 @@ const getLoginStatus = () => {
     clearTimeout(getStatus_Timeout);
   })
 }
-//主题
-const MyTheme = {
-  dark: false,
-  colors: {
-    primary: '#2ba245',
-    background: 'rgb(242, 242, 242)',
-    card: 'rgb(255, 255, 255)',
-    text: '#333',
-    border: 'rgb(199, 199, 204)',
-    notification: '#2ba245',
-  },
-};
 const App = (props) => {
+  const [isConnect, setIsConnect] = useState(true)
   useEffect(() => {//监听登录状态变化
+    (async () => {
+      let ssid = await NetworkInfo.getSSID()
+      setIsConnect(ssid != null)
+    })()
     clearTimeout(getStatus_Timeout);
     if (props.loginState) {
       getLoginStatus()
     }
   }, [props.loginState])
   return (
-    <Provider>
+    <Provider theme={ant_themes}>
       <SafeAreaProvider>
         <NavigationContainer theme={MyTheme}  /*theme={scheme === 'dark' ? DarkTheme : DefaultTheme}*/>
           <Stack.Navigator gesturesEnabled={true}>
-            {[...(props.loginState ? authScreens : userScreens)].map((item, index) => (
+            {[...(isConnect ? (props.loginState ? authScreens : userScreens) : disconnect)].map((item, index) => (
               <Stack.Screen
                 options={{ headerShown: item.headerShown, title: item.title }}
                 name={item.name}

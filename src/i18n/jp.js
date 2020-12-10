@@ -25,5 +25,5 @@ export default {
         tab_wifi24:'Wi-Fi 2G設定',
         tab_wifi5:'Wi-Fi 5G設定',
         tab_wps:'WPS 設定',
-    }
+    },
 };

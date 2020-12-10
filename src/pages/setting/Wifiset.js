@@ -26,7 +26,7 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     const [bandwidth, setBandwidth] = useState([])//带宽
     useFocusEffect(
         React.useCallback(() => {
-            // loading_tool(true)
+            loading_tool(true)
             getData()
             return () => loading_tool(false);
         }, [])
@@ -258,26 +258,24 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
         )
     }
     return (
-        <Provider>
-            <ScrollView>
-                <List>
-                    <List.Item
-                        extra={
-                            <Switch
-                                checked={wifiOpen}
-                                onChange={val => setWifiOpen(val)}
-                            />
-                        }
-                    >Wi-Fi开关</List.Item>
-                </List>
-                {wifiOpen ? <><WifiSet />{showAdv ? <WifiAdv /> : null}</> : null}
-                <Button
-                    type="primary"
-                    style={{ marginTop: 20 }}
-                    onPress={() => post()}>
-                    保存
+        <ScrollView>
+            <List>
+                <List.Item
+                    extra={
+                        <Switch
+                            checked={wifiOpen}
+                            onChange={val => setWifiOpen(val)}
+                        />
+                    }
+                >Wi-Fi开关</List.Item>
+            </List>
+            {wifiOpen ? <><WifiSet />{showAdv ? <WifiAdv /> : null}</> : null}
+            <Button
+                type="primary"
+                style={{ marginTop: 20 }}
+                onPress={() => post()}>
+                保存
                 </Button>
-            </ScrollView>
-        </Provider>
+        </ScrollView>
     )
 }

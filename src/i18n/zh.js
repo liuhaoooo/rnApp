@@ -25,5 +25,53 @@ export default {
         tab_wifi24:'Wi-Fi 2G设置',
         tab_wifi5:'Wi-Fi 5G设置',
         tab_wps:'WPS 设置',
+    },
+    device_status:{
+        wifiStatus:"无线状态",
+        broadband:"带宽:",
+        channel:"信道:",
+        mode:"当前模式:",
+        networkInfo:"网络信息",
+        workingMode:"工作模式",
+        wanip:"WAN IP 地址",
+        wanmac:"WAN MAC 地址",
+        close:"已关闭",
+        is5g:"(5G优先)",
+        mode_arr: {
+            "Bridge": "桥模式",
+            "Route": "路由模式",
+            "APClient": "无线中继模式",
+            "no": "wan口未连接",
+            "Mesh":"无线中继模式",
+            "undefined":"------"
+        },
+        bandwidth_4g_arr: {
+            "0": "20MHz",
+            "1": "40MHz",
+            "2": "20/40MHz",
+            "undefined":"------"
+        },
+        bandwidth_5g_arr: {
+            "0": "20MHz",
+            "1": "40MHz",
+            "2": "80MHz",
+            "undefined":"------"
+        },
+        mode_4g_arr: {
+            "1": "11b only",
+            "4": "11g only",
+            "6": "11n only",
+            "0": "11b/g",
+            "16": "11g/n/ax",
+            "9": "11b/g/n",
+            "undefined":"------"
+        },
+        mode_5g_arr: {
+            "2": "11a only",
+            "8": "11a/n",
+            "14": "11a/n/ac",
+            "17": "11n/ac/ax",
+            "undefined":"------"
+        },
     }
 };

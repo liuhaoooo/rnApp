@@ -12,6 +12,8 @@ target 'rnApp' do
 
   pod 'react-native-network-info', :path => '../node_modules/react-native-network-info'
 
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'rnAppTests' do
     inherit! :complete
     # Pods for testing
