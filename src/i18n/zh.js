@@ -16,7 +16,7 @@ export default {
         password: '密 码',
     },
     home:{
-        home:'首页',
+        home:'信息',
         status:'设备',
         setting:'设置',
         tool:'工具'
