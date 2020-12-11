@@ -9,7 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { CMD } from '../../config/cmd'
 import { i18n } from '../../i18n/index';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
-import { List, Flex, Switch, Picker, WhiteSpace, Modal } from '@ant-design/react-native';
+import { List, Flex, WhiteSpace } from '@ant-design/react-native';
 const Hearder = () => {
     const [ip, setIp] = useState(null)
     const [ssid, setSsid] = useState(null)
@@ -178,11 +178,18 @@ const WifiInfo = () => {
 export default Main = () => {
     return (
         <LinearGradient colors={['#009688', '#03c4b1', '#eee']} style={{ height: '100%' }}>
-            <View>
-                <Hearder />
-                <WhiteSpace size="lg" />
-                <WifiInfo />
-            </View>
+            <ScrollView
+                automaticallyAdjustContentInsets={false}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+            >
+                <View>
+                    <WhiteSpace size="lg" />
+                    <Hearder />
+                    <WhiteSpace size="lg" />
+                    <WifiInfo />
+                </View>
+            </ScrollView>
         </LinearGradient>
     )
 }

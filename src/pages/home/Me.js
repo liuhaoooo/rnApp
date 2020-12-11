@@ -5,7 +5,7 @@ import { logout_tool, loading_tool } from '../../common/tools'
 import { i18n } from '../../i18n/index';
 import { CMD } from '../../config/cmd'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useFocusEffect,useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 //led指示灯
 const LedSwitch = () => {
@@ -100,7 +100,7 @@ const Me = () => {
                 </List>
                 <WhiteSpace size="lg" />
                 <Flex>
-                    <Flex.Item onPress={()=>navigation.push('Setting')}>
+                    <Flex.Item onPress={() => navigation.push('Setting')}>
                         <View style={style.center}>
                             <Ionicons name='ios-wifi' size={60} color={'#bef8a1'} />
                             <Text>Wi-Fi设置</Text>
