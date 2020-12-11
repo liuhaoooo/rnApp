@@ -1,13 +1,14 @@
 /**
  * @format
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppRegistry } from 'react-native';
 import App from './App';
 import { name as appName } from './app.json';
 //redux
 import { Provider } from 'react-redux'
 import store from './src/redux/reducer/index'
+
 const Index = () => {
   return (
     <>
