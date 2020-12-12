@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios'
-import { Toast, Modal } from '@ant-design/react-native';
+import { Toast, Modal,Portal } from '@ant-design/react-native';
 import { common_url } from '../config/cmd'
 import store from '../redux/reducer/index'
-import { loading_tool } from '../common/tools';
+// import { loading_tool } from '../common/tools';
 import { i18n } from '../i18n/index';
 import { changeLoginStateAction } from '../redux/action/index';
 async function fetchRequest(method = 'POST', params = '') {
@@ -43,7 +43,8 @@ async function fetchRequest(method = 'POST', params = '') {
                 }
                 resolve(res);
             }).catch(err => {
-                loading_tool(false)
+                // loading_tool(false)
+                Portal.remove(store.getState().loadingKey)
                 // Toast.info({ content: i18n.t('tips.fail'), duration: 1, mask: false })
                 reject(err);
             });

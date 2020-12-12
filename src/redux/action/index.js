@@ -9,7 +9,7 @@ export const changeLoginStateAction = (value) => ({
 
 export const changeConnectAction = (value) => ({
     type: CHANGE_CONNECT,
-    value:value == '<unknown ssid>' || value == null
+    value:value == /*'<unknown ssid>' || */value == null
 })
 
 export const changeLoading = (value) => ({

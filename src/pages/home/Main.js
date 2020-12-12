@@ -177,7 +177,7 @@ const WifiInfo = () => {
 }
 export default Main = () => {
     return (
-        <LinearGradient colors={['#009688', '#03c4b1', '#eee']} style={{ height: '100%' }}>
+        <LinearGradient colors={['#606266', '#909399', '#eee']} style={{ height: '100%' }}>
             <ScrollView
                 automaticallyAdjustContentInsets={false}
                 showsHorizontalScrollIndicator={false}

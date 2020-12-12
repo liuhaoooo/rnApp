@@ -43,6 +43,7 @@ const App = (props) => {
   }
   const getNetworkInfo = () => {
     NetworkInfo.getSSID().then(ssid => {
+      console.log(ssid)
       props.changeConnect(ssid)
       getNetwork_Timeout = setTimeout(() => {
         getNetworkInfo()
