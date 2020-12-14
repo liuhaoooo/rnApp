@@ -2,6 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { View, Button, Text, ScrollView } from 'react-native'
 import { List, WhiteSpace, WingBlank, SwipeAction } from '@ant-design/react-native';
 import { useFocusEffect } from '@react-navigation/native';
+//骨架屏
+import {
+    Placeholder,
+    PlaceholderMedia,
+    PlaceholderLine,
+    Fade
+} from "rn-placeholder";
 import { CMD } from '../../config/cmd'
 import { i18n } from '../../i18n/index';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
@@ -9,6 +16,7 @@ export default Info = () => {
     const [deviceInfo, setDeviceInfo] = useState([])
     const [ipv4Info, setIpv4Info] = useState([])
     const [ipv6Info, setIpv6Info] = useState([])
+    const [loading,setLoading] = useState(true)
     useFocusEffect(
         React.useCallback(() => {
             getData()
@@ -52,6 +60,24 @@ export default Info = () => {
         setDeviceInfo(deviceInfoTmp)
         setIpv4Info(ipv4InfoTmp)
         setIpv6Info(ipv6InfoTmp)
+        setLoading(false)
+    }
+    const Placeholders = () => {
+        let arr = []
+        for (let i = 0; i < 15; i++) {
+            arr.push(
+                <Placeholder
+                    style={{ marginLeft: 10 }}
+                    Animation={Fade}
+                    Left={PlaceholderMedia}
+                    key={i}
+                >
+                    <PlaceholderLine width={60} />
+                    <PlaceholderLine width={90} />
+                </Placeholder>
+            )
+        }
+        return (<View>{arr}</View>)
     }
     return (
         <ScrollView
@@ -59,27 +85,32 @@ export default Info = () => {
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
         >
-            <List renderHeader={'设备信息'}>
-                {
-                    deviceInfo.map((item, index) => (
-                        <List.Item extra={item.value} key={index}>{item.label}</List.Item>
-                    ))
-                }
-            </List>
-            <List renderHeader={'IPv4信息'}>
-                {
-                    ipv4Info.map((item, index) => (
-                        <List.Item extra={item.value} key={index}>{item.label}</List.Item>
-                    ))
-                }
-            </List>
-            <List renderHeader={'IPv6信息'}>
-                {
-                    ipv6Info.map((item, index) => (
-                        <List.Item extra={item.value} key={index}>{item.label}</List.Item>
-                    ))
-                }
-            </List>
+            {
+                loading ? <Placeholders /> :
+                    <>
+                        <List renderHeader={'设备信息'}>
+                            {
+                                deviceInfo.map((item, index) => (
+                                    <List.Item extra={item.value} key={index}>{item.label}</List.Item>
+                                ))
+                            }
+                        </List>
+                        <List renderHeader={'IPv4信息'}>
+                            {
+                                ipv4Info.map((item, index) => (
+                                    <List.Item extra={item.value} key={index}>{item.label}</List.Item>
+                                ))
+                            }
+                        </List>
+                        <List renderHeader={'IPv6信息'}>
+                            {
+                                ipv6Info.map((item, index) => (
+                                    <List.Item extra={item.value} key={index}>{item.label}</List.Item>
+                                ))
+                            }
+                        </List>
+                    </>
+            }
         </ScrollView>
     )
 }

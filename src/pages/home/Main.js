@@ -1,8 +1,8 @@
 import React, { useContext, useMemo, useState } from 'react'
-import { Image, ScrollView, Text, View, StyleSheet } from 'react-native';
+import { Image, ScrollView, Text, View, StyleSheet,ImageBackground } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { useFocusEffect } from '@react-navigation/native';
-import { NetworkInfo } from "react-native-network-info";
+import NetInfo from "@react-native-community/netinfo";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
@@ -20,12 +20,12 @@ const Hearder = () => {
         }, [])
     );
     const getDeviceInfo = async () => {
-        let ip = await NetworkInfo.getIPV4Address()
-        let ssid = await NetworkInfo.getSSID()
+        NetInfo.fetch().then(res => {
+            setIp(res.details.ipAddress)
+            setSsid(res.details.ssid)
+        })
         let brand = await DeviceInfo.getBrand()
         let name = await DeviceInfo.getDeviceName()
-        setIp(ip)
-        setSsid(ssid)
     }
     return (
         <View>
@@ -177,7 +177,8 @@ const WifiInfo = () => {
 }
 export default Main = () => {
     return (
-        <LinearGradient colors={['#606266', '#909399', '#eee']} style={{ height: '100%' }}>
+        // <LinearGradient colors={['#606266', '#909399', '#eee']} style={{ height: '100%' }}>
+        <ImageBackground source={require('../../assets/images/background_main.jpg')} style={{ width: '100%', height: '100%' }}>
             <ScrollView
                 automaticallyAdjustContentInsets={false}
                 showsHorizontalScrollIndicator={false}
@@ -190,7 +191,8 @@ export default Main = () => {
                     <WifiInfo />
                 </View>
             </ScrollView>
-        </LinearGradient>
+        {/* </LinearGradient> */}
+        </ImageBackground>
     )
 }
 //style

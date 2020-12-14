@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Provider } from '@ant-design/react-native';
 import { Appearance } from 'react-native';
-import { NetworkInfo } from "react-native-network-info";
+import NetInfo from "@react-native-community/netinfo";
 //react-navigation
 import { NavigationContainer, DefaultTheme, DarkTheme, } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -18,12 +18,13 @@ import { MyTheme } from './src/styles/themes'
 const Stack = createStackNavigator();
 const scheme = Appearance.getColorScheme()
 let getStatus_Timeout = null
-let getNetwork_Timeout = null
 
 const App = (props) => {
   useEffect(() => {
-    clearTimeout(getNetwork_Timeout)
-    getNetworkInfo()
+    const unsubscribe = NetInfo.addEventListener(state => {
+      props.changeConnect(state.type)
+    });
+    return () => unsubscribe();
   }, [])
   useEffect(() => {//监听登录状态变化
     clearTimeout(getStatus_Timeout);
@@ -41,16 +42,6 @@ const App = (props) => {
       clearTimeout(getStatus_Timeout);
     })
   }
-  const getNetworkInfo = () => {
-    NetworkInfo.getSSID().then(ssid => {
-      console.log(ssid)
-      props.changeConnect(ssid)
-      getNetwork_Timeout = setTimeout(() => {
-        getNetworkInfo()
-      }, 6000)
-    })
-  }
-
   return (
     <Provider theme={ant_themes}>
       <SafeAreaProvider>
@@ -72,14 +63,14 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     loginState: state.loginState,
-    isConnect:state.isConnect
+    isConnect: state.isConnect
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-      changeConnect: (value) => {
-          dispatch(changeConnectAction(value));
-      }
+    changeConnect: (value) => {
+      dispatch(changeConnectAction(value));
+    }
   }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

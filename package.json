@@ -15,6 +15,7 @@
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/cameraroll": "^4.0.0",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/netinfo": "^5.9.9",
     "@react-native-community/segmented-control": "^2.1.0",
     "@react-native-community/slider": "^3.0.3",
     "@react-native-community/viewpager": "^4.1.0",
@@ -39,7 +40,8 @@
     "react-native-validator": "^0.0.12",
     "react-native-vector-icons": "^7.0.0",
     "react-redux": "^7.2.2",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "rn-placeholder": "^3.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
