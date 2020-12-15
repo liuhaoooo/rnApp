@@ -2,7 +2,7 @@ import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Setting from '../pages/Setting'
 import Disconnect from '../pages/Disconnect'
-//未登录
+//未连接WiFi
 export const disconnect = [
     { name: 'Disconnect', component: Disconnect, headerShown: false, title: '未连接WiFi' }
 ]

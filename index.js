@@ -8,8 +8,12 @@ import { name as appName } from './app.json';
 //redux
 import { Provider } from 'react-redux'
 import store from './src/redux/reducer/index'
-
+import SplashScreen from 'react-native-splash-screen';
+ 
 const Index = () => {
+  useEffect(()=>{
+    SplashScreen.hide()
+  },[])
   return (
     <>
       <Provider store={store}>
