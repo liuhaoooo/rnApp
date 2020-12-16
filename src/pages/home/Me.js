@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react'
 import { List, Flex, Switch, Picker, WhiteSpace, Modal } from '@ant-design/react-native';
 import { ScrollView, View, Button, Text, StyleSheet } from 'react-native';
-import { logout_tool, loading_tool } from '../../common/tools'
+import { logout_tool, loading_tool,restart_tool } from '../../common/tools'
 import { i18n } from '../../i18n/index';
 import { CMD } from '../../config/cmd'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -129,7 +129,7 @@ const Me = () => {
                 </List>
                 <WhiteSpace size="sm" />
                 <List>
-                    <List.Item onPress={() => logout_tool(i18n.t('tips.logout'))}>
+                    <List.Item onPress={() => restart_tool(i18n.t('tips.logout'))}>
                         <Text style={{ fontSize: 14, textAlign: 'center', color: '#E6A23C' }}>重启设备</Text>
                     </List.Item>
                 </List>

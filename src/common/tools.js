@@ -38,16 +38,19 @@ export const restart_tool = (message) => {
         fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(() => { });
         return
     }
-    Alert.alert(i18n.t('tips.tip'), message, [
+    Modal.alert(i18n.t('tips.tip'), message, [
         {
             text: i18n.t('tips.cancel'),
             onPress: () => { },
-            style: 'cancel'
+            style: 'cancel',
         },
         {
-            text: i18n.t('tips.ok'), onPress: () => {
+            text: i18n.t('tips.ok'),
+            onPress: () => {
                 fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
-                    fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(() => { });
+                    fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(res => { 
+                        console.log(res,'--------------')
+                    });
                 });
             }
         }
