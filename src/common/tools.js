@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { CMD } from "../config/cmd";
 import { Portal, Toast, Modal } from '@ant-design/react-native';
@@ -47,10 +46,8 @@ export const restart_tool = (message) => {
         {
             text: i18n.t('tips.ok'),
             onPress: () => {
-                fetchRequest_post({ cmd: CMD.LOGOUT }).then(res => {
-                    fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(res => { 
-                        console.log(res,'--------------')
-                    });
+                fetchRequest_post({ cmd: CMD.SYS_REBOOT, rebootType: 2 }).then(res => {
+                    console.log(res, '--------------')
                 });
             }
         }

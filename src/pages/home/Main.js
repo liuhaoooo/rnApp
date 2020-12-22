@@ -73,9 +73,9 @@ const Hearder = () => {
             </Flex>
             <View style={{ height: 100, backgroundColor: 'rgba(255, 255, 255, 0)' }}>
                 <View style={style.wifiInfoHeader}>
-                    <Text style={{ color: '#eee' }}>当前连接WiFi: {ssid}</Text>
+                    <Text style={{ color: '#666' }}>当前连接WiFi: {ssid}</Text>
                     <WhiteSpace size="sm" />
-                    <Text style={{ color: '#eee' }}>当前网络IP: {ip}</Text>
+                    <Text style={{ color: '#666' }}>当前网络IP: {ip}</Text>
                 </View>
             </View>
         </View>
@@ -111,14 +111,14 @@ const WifiInfo = () => {
                     <Flex.Item>
                         <View style={style.wifiInfoHeader}>
                             <Feather name={wifiName_4g ? 'wifi-off' : 'wifi'} size={50} color={wifiName_4g ? '#F56C6C' : '#bef8a1'} />
-                            <Text style={{ color: '#eee' }}>Wi-Fi 2.4G</Text>
+                            <Text style={{ color: '#666' }}>Wi-Fi 2.4G</Text>
                             <Text>{wifiName_4g ? '已关闭' : networkInfo.wifiName_4g}</Text>
                         </View>
                     </Flex.Item>
                     <Flex.Item>
                         <View style={style.wifiInfoHeader}>
                             <Feather name={wifiName_5g ? 'wifi-off' : 'wifi'} size={50} color={wifiName_5g ? '#F56C6C' : '#bef8a1'} />
-                            <Text style={{ color: '#eee' }}>Wi-Fi 5G</Text>
+                            <Text style={{ color: '#666' }}>Wi-Fi 5G</Text>
                             <Text>{wifiName_5g ? '已关闭' : networkInfo.wifiName_5g}</Text>
                         </View>
                     </Flex.Item>
@@ -147,7 +147,7 @@ const WifiInfo = () => {
                         <Flex.Item>
                             <View style={style.wifiInfoHeader}>
                                 <Feather name={wifiName_5g ? 'wifi-off' : 'wifi'} size={70} color={wifiName_5g ? '#F56C6C' : '#bef8a1'} />
-                                <Text style={{ color: '#eee' }}>5G优选</Text>
+                                <Text style={{ color: '#666' }}>5G优选</Text>
                                 <Text>{wifiName_5g ? '已关闭' : networkInfo.wifiName_5g}</Text>
                             </View>
                         </Flex.Item>
@@ -156,7 +156,7 @@ const WifiInfo = () => {
                     <Flex>
                         <Flex.Item>
                             <View style={style.wifiInfo}>
-                                <Text style={{ color: '#eee' }}>2.4G Wi-Fi</Text>
+                                <Text style={{ color: '#666' }}>2.4G Wi-Fi</Text>
                                 <Text>带宽: {i18n.t(`device_status.bandwidth_4g_arr.${networkInfo.bandwidth_4g}`)}</Text>
                                 <Text>信道: {networkInfo.channel_4g || '-----'}</Text>
                                 <Text>当前模式: {i18n.t(`device_status.mode_4g_arr.${networkInfo.mode_4g}`)}</Text>
@@ -164,7 +164,7 @@ const WifiInfo = () => {
                         </Flex.Item>
                         <Flex.Item>
                             <View style={style.wifiInfo}>
-                                <Text style={{ color: '#eee' }}>5G Wi-Fi</Text>
+                                <Text style={{ color: '#666' }}>5G Wi-Fi</Text>
                                 <Text>带宽: {i18n.t(`device_status.bandwidth_5g_arr.${networkInfo.bandwidth_5g}`)}</Text>
                                 <Text>信道: {networkInfo.channel_5g || '-----'}</Text>
                                 <Text>当前模式: {i18n.t(`device_status.mode_5g_arr.${networkInfo.mode_5g}`)}</Text>
@@ -177,8 +177,8 @@ const WifiInfo = () => {
 }
 export default Main = () => {
     return (
-        // <LinearGradient colors={['#606266', '#909399', '#eee']} style={{ height: '100%' }}>
-        <ImageBackground source={require('../../assets/images/background_main.jpg')} style={{ width: '100%', height: '100%' }}>
+        <LinearGradient colors={['#fff', '#fff', '#fff']} style={{ height: '100%' }}>
+            {/* <ImageBackground source={require('../../assets/images/background_main.jpg')} style={{ width: '100%', height: '100%' }}> */}
             <ScrollView
                 automaticallyAdjustContentInsets={false}
                 showsHorizontalScrollIndicator={false}
@@ -191,8 +191,8 @@ export default Main = () => {
                     <WifiInfo />
                 </View>
             </ScrollView>
-        {/* </LinearGradient> */}
-        </ImageBackground>
+        </LinearGradient>
+        // {/* </ImageBackground> */}
     )
 }
 //style

@@ -6,6 +6,7 @@ import { i18n } from '../../i18n/index';
 import { loading_tool } from '../../common/tools';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
 import { useFocusEffect } from '@react-navigation/native';
+import Placeholders from '../../components/Placeholders'
 export default Wifiset_24g = ({ id, cmd, option }) => {
     const [wifiOpen, setWifiOpen] = useState(true)//wifi开关
     const [wifiHide, setWifiHide] = useState(false)//wifi隐藏
@@ -24,13 +25,17 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     const [channel, setChannel] = useState([])//信道
     const [workMode, setWorkMode] = useState([])//Wi-Fi工作模式
     const [bandwidth, setBandwidth] = useState([])//带宽
+    const [loading, setLoading] = useState(true)
     useFocusEffect(
         React.useCallback(() => {
-            loading_tool(true)
+            // setLoading(true)
             getData()
             return () => loading_tool(false);
         }, [])
     );
+    useEffect(()=>{
+        setLoading(true)
+    },[])
     const getData = async () => {
         let res = await fetchRequest_get({ cmd: cmd.get, subcmd: 0 });
         let res_adv = await fetchRequest_get({ cmd: cmd.get_adv });
@@ -49,7 +54,7 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
         setChannel([res_adv.channel])
         setWorkMode([res_adv.wifiWorkMode])
         setBandwidth([res_adv.bandWidth])
-        loading_tool(false)
+        setLoading(false)
     }
     const post = () => {
         loading_tool(true)
@@ -259,17 +264,19 @@ export default Wifiset_24g = ({ id, cmd, option }) => {
     }
     return (
         <ScrollView>
-            <List>
-                <List.Item
-                    extra={
-                        <Switch
-                            checked={wifiOpen}
-                            onChange={val => setWifiOpen(val)}
-                        />
-                    }
-                >Wi-Fi开关</List.Item>
-            </List>
-            {wifiOpen ? <><WifiSet />{showAdv ? <WifiAdv /> : null}</> : null}
+            {loading ? <Placeholders count={8} /> : <>
+                <List>
+                    <List.Item
+                        extra={
+                            <Switch
+                                checked={wifiOpen}
+                                onChange={val => setWifiOpen(val)}
+                            />
+                        }
+                    >Wi-Fi开关</List.Item>
+                </List>
+                {wifiOpen ? <><WifiSet />{showAdv ? <WifiAdv /> : null}</> : null}
+            </>}
             <Button
                 type="primary"
                 style={{ marginTop: 20 }}

@@ -2,13 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { View, Button, Text, ScrollView } from 'react-native'
 import { List, WhiteSpace, WingBlank, SwipeAction } from '@ant-design/react-native';
 import { useFocusEffect } from '@react-navigation/native';
-//骨架屏
-import {
-    Placeholder,
-    PlaceholderMedia,
-    PlaceholderLine,
-    Fade
-} from "rn-placeholder";
+import Placeholders from '../../components/Placeholders'
 import { CMD } from '../../config/cmd'
 import { i18n } from '../../i18n/index';
 import { fetchRequest_get, fetchRequest_post } from '../../common/fetchRequest'
@@ -62,23 +56,6 @@ export default Info = () => {
         setIpv6Info(ipv6InfoTmp)
         setLoading(false)
     }
-    const Placeholders = () => {
-        let arr = []
-        for (let i = 0; i < 15; i++) {
-            arr.push(
-                <Placeholder
-                    style={{ marginLeft: 10 }}
-                    Animation={Fade}
-                    Left={PlaceholderMedia}
-                    key={i}
-                >
-                    <PlaceholderLine width={60} />
-                    <PlaceholderLine width={90} />
-                </Placeholder>
-            )
-        }
-        return (<View><WhiteSpace size="lg" />{arr}</View>)
-    }
     return (
         <ScrollView
             automaticallyAdjustContentInsets={false}
@@ -86,7 +63,7 @@ export default Info = () => {
             showsVerticalScrollIndicator={false}
         >
             {
-                loading ? <Placeholders /> :
+                loading ? <Placeholders count={12} /> :
                     <>
                         <List renderHeader={i18n.t('info.renderHeader1')}>
                             {
